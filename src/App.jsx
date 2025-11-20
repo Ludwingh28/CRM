@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import InventarioAlmacen from './pages/InventarioAlmacen';
+import InventarioMovil from './pages/InventarioMovil';
+import MapaClientes from './pages/MapaClientes';
+import GestionVentas from './pages/GestionVentas';
+import ReportesVentas from './pages/ReportesVentas';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState('inventario-almacen');
+  const [userName] = useState('Juan Pérez'); // Aquí puedes obtener el nombre del usuario desde tu sistema de autenticación
+
+  // Función para renderizar el componente actual basado en la página seleccionada
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'inventario-almacen':
+        return <InventarioAlmacen />;
+      case 'inventario-movil':
+        return <InventarioMovil />;
+      case 'mapa-clientes':
+        return <MapaClientes />;
+      case 'gestion-ventas':
+        return <GestionVentas />;
+      case 'reportes-ventas':
+        return <ReportesVentas />;
+      default:
+        return <InventarioAlmacen />;
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar
+        currentPage={currentPage}
+        onNavigate={setCurrentPage}
+        userName={userName}
+      />
+
+      {/* Contenido principal */}
+      <main className="flex-1 overflow-y-auto">
+        {renderPage()}
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
