@@ -84,7 +84,7 @@ const ReportesVentas = () => {
             <h2 className="text-xl font-bold text-gray-800">Filtro por Canal</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button
+            <button className="cursor-pointer"
               onClick={() => setSelectedCanal('todos')}
               className={`
                 p-6 rounded-xl border-2 transition-all duration-200
@@ -101,7 +101,7 @@ const ReportesVentas = () => {
               <p className="text-sm text-gray-500 mt-1">Vista completa</p>
             </button>
 
-            <button
+            <button className="cursor-pointer"
               onClick={() => setSelectedCanal('DH')}
               className={`
                 p-6 rounded-xl border-2 transition-all duration-200
@@ -118,7 +118,7 @@ const ReportesVentas = () => {
               <p className="text-sm text-gray-500 mt-1">Detalle al hogar</p>
             </button>
 
-            <button
+            <button className="cursor-pointer"
               onClick={() => setSelectedCanal('Mayorista')}
               className={`
                 p-6 rounded-xl border-2 transition-all duration-200
