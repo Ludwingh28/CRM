@@ -64,11 +64,11 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+    <div className="flex h-screen bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden">
       {/* Botón hamburguesa para móvil */}
       <button
         onClick={toggleMobileMenu}
-        className="md:hidden fixed top-4 left-4 z-50 p-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
+        className="md:hidden fixed top-4 left-4 z-50 p-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -84,7 +84,7 @@ function App() {
       {/* SIDEBAR INTEGRADO */}
       <aside
         className={`
-          fixed md:sticky top-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white
+          fixed md:sticky top-0 left-0 h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 text-white
           transition-all duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700/50
           ${isOpen ? 'w-72' : 'w-20'}
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
@@ -96,18 +96,18 @@ function App() {
             <div className="flex items-center justify-between mb-4">
               {isOpen ? (
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
                     <User size={24} className="text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-slate-400 uppercase tracking-wide">Bienvenido</p>
-                    <p className="font-bold text-lg truncate bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    <p className="font-bold text-lg truncate bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                       {userName}
                     </p>
                   </div>
                 </div>
               ) : (
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg mx-auto">
+                <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg mx-auto">
                   <User size={20} className="text-white" />
                 </div>
               )}
@@ -125,7 +125,7 @@ function App() {
             <button
               onClick={handleLogout}
               className={`
-                w-full flex items-center gap-3 p-3 bg-gradient-to-r from-red-600 to-red-700
+                w-full flex items-center gap-3 p-3 bg-linear-to-r from-red-600 to-red-700
                 hover:from-red-700 hover:to-red-800 rounded-xl transition-all duration-200
                 font-medium shadow-lg hover:shadow-red-500/50 hover:scale-105
                 ${!isOpen && 'justify-center'}
@@ -151,7 +151,7 @@ function App() {
                         w-full flex items-center gap-4 p-4 rounded-xl
                         transition-all duration-300 font-medium group
                         ${isActive
-                          ? `bg-gradient-to-r from-${item.color}-600 to-${item.color}-700 shadow-lg shadow-${item.color}-500/50 scale-105`
+                          ? `bg-linear-to-r from-${item.color}-600 to-${item.color}-700 shadow-lg shadow-${item.color}-500/50 scale-105`
                           : 'hover:bg-slate-700/50 hover:scale-105'
                         }
                         ${!isOpen && 'justify-center'}
@@ -165,7 +165,7 @@ function App() {
                           : 'bg-slate-700/50 group-hover:bg-slate-600/50'
                         }
                       `}>
-                        <Icon size={22} className="flex-shrink-0" />
+                        <Icon size={22} className="shrink-0" />
                       </div>
                       {isOpen && (
                         <span className="text-sm font-semibold truncate">{item.label}</span>
