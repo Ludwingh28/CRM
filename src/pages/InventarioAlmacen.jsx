@@ -299,10 +299,15 @@ const InventarioAlmacen = () => {
             ]}
             data={productos.map(p => ({
               ...p,
+              id: <span className="text-gray-900">{p.id}</span>,
               tipo: <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">{p.tipo}</span>,
-              precioCompra: `$${p.precioCompra}`,
-              precioMayorista: `$${p.precioMayorista}`,
-              precioMinorista: `$${p.precioMinorista}`,
+              nombre: <span className="text-gray-900">{p.nombre}</span>,
+              cantidad: <span className="text-gray-900">{p.cantidad}</span>,
+              precioCompra: <span className="text-gray-900">${p.precioCompra}</span>,
+              precioMayorista: <span className="text-gray-900">${p.precioMayorista}</span>,
+              precioMinorista: <span className="text-gray-900">${p.precioMinorista}</span>,
+              fechaIngreso: <span className="text-gray-900">{p.fechaIngreso}</span>,
+              fechaVencimiento: <span className="text-gray-900">{p.fechaVencimiento}</span>,
             }))}
             color="blue"
             emptyMessage={<><Package size={64} className="mx-auto mb-4 text-gray-300" /><p className="text-gray-500 text-lg font-medium">No hay productos registrados</p><p className="text-gray-400 text-sm mt-2">Agrega tu primer producto usando el botón "Nuevo Producto"</p></>}

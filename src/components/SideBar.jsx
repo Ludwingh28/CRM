@@ -78,7 +78,7 @@ function SideBar({
             {/* Botón colapsar para desktop */}
             <button
               onClick={toggleSidebar}
-              className="hidden md:block p-2 hover:bg-slate-700/50 rounded-lg transition-all duration-200 hover:scale-110"
+              className="hidden md:block p-2 hover:bg-slate-700/50 rounded-lg transition-all duration-200 hover:scale-110 cursor-pointer"
             >
               {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
             </button>
@@ -90,7 +90,7 @@ function SideBar({
             className={`
               w-full flex items-center gap-3 p-3 bg-linear-to-r from-red-600 to-red-700
               hover:from-red-700 hover:to-red-800 rounded-xl transition-all duration-200
-              font-medium shadow-lg hover:shadow-red-500/50 hover:scale-105
+              font-medium shadow-lg hover:shadow-red-500/50 hover:scale-105 cursor-pointer
               ${!isOpen && 'justify-center'}
             `}
           >
@@ -112,7 +112,7 @@ function SideBar({
                     onClick={() => handleMenuClick(item.id)}
                     className={`
                       w-full flex items-center gap-4 p-4 rounded-xl
-                      transition-all duration-300 font-medium group
+                      transition-all duration-300 font-medium group cursor-pointer
                       ${isActive
                         ? `bg-linear-to-r from-${item.color}-600 to-${item.color}-700 shadow-lg shadow-${item.color}-500/50 scale-105`
                         : 'hover:bg-slate-700/50 hover:scale-105'

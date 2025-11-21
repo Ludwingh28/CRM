@@ -1,27 +1,6 @@
 import { useState, useEffect } from 'react';
 import Map from '../components/Map';
-import { useMapEvents } from 'react-leaflet';
 import { UserPlus, MapPin, Navigation, Users, Store, Building2, Phone, CheckCircle } from 'lucide-react';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-
-// Fix para los iconos de Leaflet
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
-
-// Componente para manejar el click en el mapa
-const MapClickHandler = ({ onLocationSelect }) => {
-  useMapEvents({
-    click: (e) => {
-      onLocationSelect(e.latlng);
-    },
-  });
-  return null;
-};
 
 const CreacionClientes = () => {
   const [mapCenter, setMapCenter] = useState([-17.823050, -63.217995]); // Default: Santa Cruz (usuario)
@@ -45,7 +24,7 @@ const CreacionClientes = () => {
           const { latitude, longitude } = position.coords;
           setMapCenter([latitude, longitude]);
         },
-        (error) => {
+        () => {
           console.log('No se pudo obtener ubicación, usando Cochabamba por defecto');
         }
       );

@@ -249,13 +249,13 @@ const InventarioMovil = () => {
             ]}
             data={productos.map(p => ({
               ...p,
-              idCamion: <div className="flex items-center gap-2"><div className="p-2 bg-green-100 rounded-lg"><Truck size={16} className="text-green-600" /></div><span className="text-sm font-medium text-white">{p.idCamion}</span></div>,
-              nombreChofer: <span className="text-white">{p.nombreChofer}</span>,
-              idProducto: <span className="text-white">{p.idProducto}</span>,
-              nombreProducto: <span className="text-white">{p.nombreProducto}</span>,
-              fechaIngreso: <span className="text-white">{p.fechaIngreso}</span>,
-              cantidad: <span className="text-white">{p.cantidad}</span>,
-              detalle: <span className="text-white">{p.detalle || '-'}</span>,
+              idCamion: <div className="flex items-center gap-2"><div className="p-2 bg-green-100 rounded-lg"><Truck size={16} className="text-green-600" /></div><span className="text-sm font-medium text-gray-900">{p.idCamion}</span></div>,
+              nombreChofer: <span className="text-gray-900">{p.nombreChofer}</span>,
+              idProducto: <span className="text-gray-900">{p.idProducto}</span>,
+              nombreProducto: <span className="text-gray-900">{p.nombreProducto}</span>,
+              fechaIngreso: <span className="text-gray-900">{p.fechaIngreso}</span>,
+              cantidad: <span className="text-gray-900">{p.cantidad}</span>,
+              detalle: <span className="text-gray-900">{p.detalle || '-'}</span>,
             }))}
             color="green"
             solidHeader={true}

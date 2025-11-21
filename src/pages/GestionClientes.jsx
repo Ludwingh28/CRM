@@ -200,12 +200,12 @@ const GestionClientes = () => {
             ]}
             data={filteredClientes.map(c => ({
               ...c,
-              zona: <span className="text-white">{c.zona}</span>,
-              nombreVenta: <span className="text-white">{c.nombreVenta}</span>,
-              nombreDuena: <span className="text-white">{c.nombreDuena}</span>,
-              celular: <span className="text-white">{c.celular}</span>,
-              tipoNegocio: <span className="px-3 py-1 bg-red-100 text-white rounded-full text-xs font-semibold capitalize">{c.tipoNegocio}</span>,
-              ubicacion: <span className="text-white">{`${c.latitud}, ${c.longitud}`}</span>,
+              zona: <span className="text-gray-900">{c.zona}</span>,
+              nombreVenta: <span className="text-gray-900">{c.nombreVenta}</span>,
+              nombreDuena: <span className="text-gray-900">{c.nombreDuena}</span>,
+              celular: <span className="text-gray-900">{c.celular}</span>,
+              tipoNegocio: <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold capitalize">{c.tipoNegocio}</span>,
+              ubicacion: <span className="text-gray-900">{`${c.latitud}, ${c.longitud}`}</span>,
             }))}
             color="red"
             emptyMessage={<><MapPin size={64} className="mx-auto mb-4 text-gray-300" /><p className="text-gray-500 text-lg font-medium">No hay clientes registrados</p><p className="text-gray-400 text-sm mt-2">Ve a "Creación de Clientes" para agregar uno nuevo</p></>}

@@ -287,12 +287,12 @@ const GestionVentas = () => {
                   ]}
                   data={preventas.map(p => ({
                     ...p,
-                    producto: <span className="text-white">{p.producto}</span>,
-                    precio: <span className="text-white">{p.precio ? `$${p.precio}` : ''}</span>,
-                    cantidad: <span className="text-white">{p.cantidad}</span>,
-                    horarioEntrega: <span className="text-white">{p.horarioEntrega}</span>,
-                    horaRegistro: <span className="text-white">{p.horaRegistro}</span>,
-                    observaciones: <span className="text-white">{p.observaciones || '-'}</span>,
+                    producto: <span className="text-gray-900">{p.producto}</span>,
+                    precio: <span className="text-gray-900">{p.precio ? `$${p.precio}` : ''}</span>,
+                    cantidad: <span className="text-gray-900">{p.cantidad}</span>,
+                    horarioEntrega: <span className="text-gray-900">{p.horarioEntrega}</span>,
+                    horaRegistro: <span className="text-gray-900">{p.horaRegistro}</span>,
+                    observaciones: <span className="text-gray-900">{p.observaciones || '-'}</span>,
                   }))}
                   color="purple"
                   emptyMessage={
@@ -436,10 +436,10 @@ const GestionVentas = () => {
                   ]}
                   data={registrosMotivos.map(r => ({
                     ...r,
-                    cliente: <span className="text-white">{r.cliente}</span>,
-                    motivo: <span className="text-white">{r.motivo}</span>,
-                    precioCompetencia: <span className="text-white">{r.precioCompetencia ? `$${r.precioCompetencia}` : '-'}</span>,
-                    horaRegistro: <span className="text-white">{r.horaRegistro}</span>,
+                    cliente: <span className="text-gray-900">{r.cliente}</span>,
+                    motivo: <span className="text-gray-900">{r.motivo}</span>,
+                    precioCompetencia: <span className="text-gray-900">{r.precioCompetencia ? `$${r.precioCompetencia}` : '-'}</span>,
+                    horaRegistro: <span className="text-gray-900">{r.horaRegistro}</span>,
                   }))}
                   color="red"
                   emptyMessage={
