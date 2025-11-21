@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Package, Plus, Search, Filter, Calendar, DollarSign, Hash, Tag, Edit, Trash2 } from 'lucide-react';
+import Table from '../components/Table';
 
 const InventarioAlmacen = () => {
   const [showForm, setShowForm] = useState(false);
@@ -284,66 +285,42 @@ const InventarioAlmacen = () => {
 
         {/* Lista de productos hermosa */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">ID</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Tipo</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Nombre</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Cantidad</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">P. Compra</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">P. Mayorista</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">P. Minorista</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">F. Ingreso</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">F. Vencimiento</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {productos.length === 0 ? (
-                  <tr>
-                    <td colSpan="10" className="px-6 py-16 text-center">
-                      <Package size={64} className="mx-auto mb-4 text-gray-300" />
-                      <p className="text-gray-500 text-lg font-medium">No hay productos registrados</p>
-                      <p className="text-gray-400 text-sm mt-2">Agrega tu primer producto usando el botón "Nuevo Producto"</p>
-                    </td>
-                  </tr>
-                ) : (
-                  productos.map((producto, index) => (
-                    <tr key={index} className="hover:bg-blue-50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">{producto.id}</td>
-                      <td className="px-6 py-4 text-sm">
-                        <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-                          {producto.tipo}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-700">{producto.nombre}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{producto.cantidad}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-green-600">${producto.precioCompra}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-blue-600">${producto.precioMayorista}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-purple-600">${producto.precioMinorista}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{producto.fechaIngreso}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{producto.fechaVencimiento}</td>
-                      <td className="px-6 py-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all hover:scale-110">
-                            <Edit size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(index)}
-                            className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all hover:scale-110"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Table
+            columns={[
+              { key: 'id', label: 'ID', className: 'text-white' },
+              { key: 'tipo', label: 'Tipo', className: 'text-white' },
+              { key: 'nombre', label: 'Nombre', className: 'text-white' },
+              { key: 'cantidad', label: 'Cantidad', className: 'text-white' },
+              { key: 'precioCompra', label: 'P. Compra', className: 'text-white' },
+              { key: 'precioMayorista', label: 'P. Mayorista', className: 'text-white' },
+              { key: 'precioMinorista', label: 'P. Minorista', className: 'text-white' },
+              { key: 'fechaIngreso', label: 'F. Ingreso', className: 'text-white' },
+              { key: 'fechaVencimiento', label: 'F. Vencimiento', className: 'text-white' },
+            ]}
+            data={productos.map(p => ({
+              ...p,
+              tipo: <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">{p.tipo}</span>,
+              precioCompra: `$${p.precioCompra}`,
+              precioMayorista: `$${p.precioMayorista}`,
+              precioMinorista: `$${p.precioMinorista}`,
+            }))}
+            color="blue"
+            emptyMessage={<><Package size={64} className="mx-auto mb-4 text-gray-300" /><p className="text-gray-500 text-lg font-medium">No hay productos registrados</p><p className="text-gray-400 text-sm mt-2">Agrega tu primer producto usando el botón "Nuevo Producto"</p></>}
+            actionsHeader="Acciones"
+            renderActions={(_, index) => (
+              <div className="flex items-center justify-center gap-2">
+                <button className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all hover:scale-110 cursor-pointer">
+                  <Edit size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all hover:scale-110 cursor-pointer"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            )}
+          />
         </div>
       </div>
     </div>

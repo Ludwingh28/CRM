@@ -84,10 +84,10 @@ const ReportesVentas = () => {
             <h2 className="text-xl font-bold text-gray-800">Filtro por Canal</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="cursor-pointer"
+            <button
               onClick={() => setSelectedCanal('todos')}
               className={`
-                p-6 rounded-xl border-2 transition-all duration-200
+                p-6 rounded-xl border-2 transition-all duration-200 cursor-pointer
                 ${selectedCanal === 'todos'
                   ? 'border-indigo-500 bg-indigo-50 shadow-lg scale-105'
                   : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
@@ -101,10 +101,10 @@ const ReportesVentas = () => {
               <p className="text-sm text-gray-500 mt-1">Vista completa</p>
             </button>
 
-            <button className="cursor-pointer"
+            <button
               onClick={() => setSelectedCanal('DH')}
               className={`
-                p-6 rounded-xl border-2 transition-all duration-200
+                cursor-pointer p-6 rounded-xl border-2 transition-all duration-200
                 ${selectedCanal === 'DH'
                   ? 'border-blue-500 bg-blue-50 shadow-lg scale-105'
                   : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
@@ -118,10 +118,10 @@ const ReportesVentas = () => {
               <p className="text-sm text-gray-500 mt-1">Detalle al hogar</p>
             </button>
 
-            <button className="cursor-pointer"
+            <button
               onClick={() => setSelectedCanal('Mayorista')}
               className={`
-                p-6 rounded-xl border-2 transition-all duration-200
+                cursor-pointer p-6 rounded-xl border-2 transition-all duration-200
                 ${selectedCanal === 'Mayorista'
                   ? 'border-purple-500 bg-purple-50 shadow-lg scale-105'
                   : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'

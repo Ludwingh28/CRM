@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import Map from '../components/Map';
 import { MapPin, Search, Filter, Calendar, Edit, Trash2 } from 'lucide-react';
+import Table from '../components/Table';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -13,8 +14,16 @@ L.Icon.Default.mergeOptions({
 });
 
 const GestionClientes = () => {
-  const [clientes, setClientes] = useState([]);
-  const [mapCenter, setMapCenter] = useState([-17.3895, -66.1568]); // Default: Cochabamba
+  const [clientes, setClientes] = useState(() => {
+    try {
+      const stored = localStorage.getItem('clientes');
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Failed to parse clientes from localStorage:', e);
+      return [];
+    }
+  });
+  const [mapCenter, setMapCenter] = useState([-17.823050, -63.217995]); // Default: Santa Cruz (usuario)
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRuta, setFilterRuta] = useState('');
   const [filterZona, setFilterZona] = useState(''); // mayorista, minorista, todos
@@ -29,11 +38,13 @@ const GestionClientes = () => {
           setMapCenter([latitude, longitude]);
         },
         (error) => {
-          console.log('No se pudo obtener ubicación, usando Cochabamba por defecto');
+          console.error('Geolocation error:', error);
         }
       );
     }
   }, []);
+
+  // Clientes are initialized from localStorage via useState lazy initializer.
 
   // Cargar clientes del localStorage (si los hay)
   useEffect(() => {
@@ -52,8 +63,9 @@ const GestionClientes = () => {
   // Filtrar clientes
   const filteredClientes = clientes.filter(cliente => {
     const matchesSearch = cliente.nombreVenta?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          cliente.nombreDuena?.toLowerCase().includes(searchTerm.toLowerCase());
+                cliente.nombreDuena?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRuta = !filterRuta || cliente.zona === filterRuta;
+    // Si filterZona es vacío o 'todos', no filtra por tipoNegocio
     const matchesZona = !filterZona || filterZona === 'todos' || cliente.tipoNegocio === filterZona;
     const matchesDia = !filterDia; // Por ahora, puedes implementar filtro por día después
 
@@ -64,7 +76,7 @@ const GestionClientes = () => {
   const rutasUnicas = [...new Set(clientes.map(c => c.zona))].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4 md:p-6 lg:p-8 relative">
       <div className="max-w-7xl mx-auto">
         {/* Header elegante */}
         <div className="mb-8">
@@ -156,94 +168,62 @@ const GestionClientes = () => {
             <MapPin className="text-red-600" size={24} />
             Mapa de Clientes
           </h3>
-          <div className="h-[500px] rounded-xl overflow-hidden shadow-lg border-2 border-gray-200">
-            <MapContainer
-              center={mapCenter}
-              zoom={13}
-              style={{ height: '100%', width: '100%' }}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {filteredClientes.map((cliente, index) => (
-                <Marker
-                  key={index}
-                  position={[parseFloat(cliente.latitud), parseFloat(cliente.longitud)]}
-                >
-                  <Popup>
-                    <div className="p-2">
-                      <p className="font-bold text-lg">{cliente.nombreVenta}</p>
-                      <p className="text-sm text-gray-600">Dueña: {cliente.nombreDuena}</p>
-                      <p className="text-sm text-gray-600">Zona: {cliente.zona}</p>
-                      <p className="text-sm text-gray-600">Celular: {cliente.celular}</p>
-                      <p className="text-xs text-gray-500 mt-1 capitalize">{cliente.tipoNegocio}</p>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
-          </div>
+          <Map
+            center={mapCenter}
+            zoom={13}
+            height={500}
+            markers={filteredClientes.filter(c => c.latitud && c.longitud).map(cliente => ({
+              position: [parseFloat(cliente.latitud), parseFloat(cliente.longitud)],
+              popup: (
+                <div className="p-2">
+                  <p className="font-bold text-lg">{cliente.nombreVenta}</p>
+                  <p className="text-sm text-gray-600">Dueña: {cliente.nombreDuena}</p>
+                  <p className="text-sm text-gray-600">Zona: {cliente.zona}</p>
+                  <p className="text-sm text-gray-600">Celular: {cliente.celular}</p>
+                  <p className="text-xs text-gray-500 mt-1 capitalize">{cliente.tipoNegocio}</p>
+                </div>
+              )
+            }))}
+          />
         </div>
 
         {/* Lista de clientes */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gradient-to-r from-red-600 to-pink-700 text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Zona</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Nombre Venta</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Dueña</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Celular</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Tipo Negocio</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Ubicación</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {filteredClientes.length === 0 ? (
-                  <tr>
-                    <td colSpan="7" className="px-6 py-16 text-center">
-                      <MapPin size={64} className="mx-auto mb-4 text-gray-300" />
-                      <p className="text-gray-500 text-lg font-medium">No hay clientes registrados</p>
-                      <p className="text-gray-400 text-sm mt-2">Ve a "Creación de Clientes" para agregar uno nuevo</p>
-                    </td>
-                  </tr>
-                ) : (
-                  filteredClientes.map((cliente, index) => (
-                    <tr key={index} className="hover:bg-red-50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">{cliente.zona}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-700">{cliente.nombreVenta}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{cliente.nombreDuena}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{cliente.celular}</td>
-                      <td className="px-6 py-4 text-sm">
-                        <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold capitalize">
-                          {cliente.tipoNegocio}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-xs text-gray-500">
-                        {cliente.latitud}, {cliente.longitud}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all hover:scale-110">
-                            <Edit size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(index)}
-                            className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all hover:scale-110"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Table
+            columns={[
+              { key: 'zona', label: 'Zona', className: 'text-white' },
+              { key: 'nombreVenta', label: 'Nombre Venta', className: 'text-white' },
+              { key: 'nombreDuena', label: 'Dueña', className: 'text-white' },
+              { key: 'celular', label: 'Celular', className: 'text-white' },
+              { key: 'tipoNegocio', label: 'Tipo Negocio', className: 'text-white' },
+              { key: 'ubicacion', label: 'Ubicación', className: 'text-white' },
+            ]}
+            data={filteredClientes.map(c => ({
+              ...c,
+              zona: <span className="text-white">{c.zona}</span>,
+              nombreVenta: <span className="text-white">{c.nombreVenta}</span>,
+              nombreDuena: <span className="text-white">{c.nombreDuena}</span>,
+              celular: <span className="text-white">{c.celular}</span>,
+              tipoNegocio: <span className="px-3 py-1 bg-red-100 text-white rounded-full text-xs font-semibold capitalize">{c.tipoNegocio}</span>,
+              ubicacion: <span className="text-white">{`${c.latitud}, ${c.longitud}`}</span>,
+            }))}
+            color="red"
+            emptyMessage={<><MapPin size={64} className="mx-auto mb-4 text-gray-300" /><p className="text-gray-500 text-lg font-medium">No hay clientes registrados</p><p className="text-gray-400 text-sm mt-2">Ve a "Creación de Clientes" para agregar uno nuevo</p></>}
+            actionsHeader="Acciones"
+            renderActions={(_, index) => (
+              <div className="flex items-center justify-center gap-2">
+                <button className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all hover:scale-110 cursor-pointer">
+                  <Edit size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all hover:scale-110 cursor-pointer"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            )}
+          />
         </div>
       </div>
     </div>

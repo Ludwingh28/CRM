@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import Map from '../components/Map';
+import { useMapEvents } from 'react-leaflet';
 import { UserPlus, MapPin, Navigation, Users, Store, Building2, Phone, CheckCircle } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -23,7 +24,7 @@ const MapClickHandler = ({ onLocationSelect }) => {
 };
 
 const CreacionClientes = () => {
-  const [mapCenter, setMapCenter] = useState([-17.3895, -66.1568]); // Default: Cochabamba
+  const [mapCenter, setMapCenter] = useState([-17.823050, -63.217995]); // Default: Santa Cruz (usuario)
   const [formData, setFormData] = useState({
     zona: '',
     nombreDuena: '',
@@ -119,7 +120,7 @@ const CreacionClientes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 p-4 md:p-6 lg:p-8 relative z-0">
       <div className="max-w-7xl mx-auto">
         {/* Header elegante */}
         <div className="mb-8">
@@ -276,24 +277,13 @@ const CreacionClientes = () => {
               </div>
 
               {/* Mapa */}
-              <div className="h-96 rounded-xl overflow-hidden shadow-lg border-2 border-gray-200">
-                <MapContainer
-                  center={mapCenter}
-                  zoom={13}
-                  style={{ height: '100%', width: '100%' }}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <MapClickHandler onLocationSelect={handleMapClick} />
-                  {selectedLocation && (
-                    <Marker position={[selectedLocation.lat, selectedLocation.lng]}>
-                      <Popup>Ubicación seleccionada</Popup>
-                    </Marker>
-                  )}
-                </MapContainer>
-              </div>
+              <Map
+                center={mapCenter}
+                zoom={13}
+                height={384}
+                onMapClick={handleMapClick}
+                markers={selectedLocation ? [{ position: [selectedLocation.lat, selectedLocation.lng], popup: 'Ubicación seleccionada' }] : []}
+              />
             </div>
 
             {/* Botón de Guardar */}

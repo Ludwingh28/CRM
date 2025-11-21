@@ -1,97 +1,154 @@
-import { LogOut, Package, Smartphone, MapPin, ShoppingCart, FileText, User, ChevronLeft } from 'lucide-react';
 
+import {
+  LogOut,
+  Package,
+  Smartphone,
+  MapPin,
+  UserPlus,
+  ShoppingCart,
+  FileText,
+  ChevronLeft,
+  ChevronRight,
+  User
+} from 'lucide-react';
 
-import { useState } from 'react';
-
-function SideBar({ currentPage, setCurrentPage }) {
-  const [collapsed, setCollapsed] = useState(false);
-  const pages = [
-    { id: 'inventario-almacen', name: 'Inventario Almacén', icon: Package, active: 'bg-blue-600 text-white shadow-blue-400/40 shadow' },
-    { id: 'inventario-movil', name: 'Inventario Móvil', icon: Smartphone, active: 'bg-emerald-600 text-white shadow-emerald-400/40 shadow' },
-    { id: 'mapa-clientes', name: 'Mapa de Clientes', icon: MapPin, active: 'bg-rose-600 text-white shadow-rose-400/40 shadow' },
-    { id: 'gestion-ventas', name: 'Gestión de Ventas', icon: ShoppingCart, active: 'bg-violet-600 text-white shadow-violet-400/40 shadow' },
-    { id: 'reportes-ventas', name: 'Reportes de Ventas', icon: FileText, active: 'bg-gradient-to-r from-amber-500 via-pink-500 to-indigo-500 text-white shadow-lg' },
+function SideBar({
+  currentPage,
+  setCurrentPage,
+  userName = 'Juan Pérez',
+  isOpen = true,
+  setIsOpen = () => {},
+  isMobileMenuOpen = false,
+  setIsMobileMenuOpen = () => {}
+}) {
+  const menuItems = [
+    { id: 'inventario-almacen', label: 'Inventario Almacén', icon: Package, color: 'blue' },
+    { id: 'inventario-movil', label: 'Inventario Móvil', icon: Smartphone, color: 'green' },
+    { id: 'gestion-clientes', label: 'Gestión Clientes', icon: MapPin, color: 'red' },
+    { id: 'creacion-clientes', label: 'Creación de Clientes', icon: UserPlus, color: 'rose' },
+    { id: 'gestion-ventas', label: 'Gestión de Ventas', icon: ShoppingCart, color: 'purple' },
+    { id: 'reportes-ventas', label: 'Reportes de Ventas', icon: FileText, color: 'indigo' },
   ];
 
   const handleLogout = () => {
     console.log('Cerrando sesión...');
+    // Implementar lógica de cierre de sesión
+  };
+
+  const toggleSidebar = () => setIsOpen((prev) => !prev);
+
+  const handleMenuClick = (itemId) => {
+    setCurrentPage(itemId);
+    if (window.innerWidth < 768) {
+      setIsMobileMenuOpen(false);
+    }
   };
 
   return (
     <aside
       className={`
-        ${collapsed ? 'w-20' : 'w-80'}
-        h-screen bg-white rounded-3xl m-2 flex flex-col shadow-2xl border border-slate-100
-        transition-all duration-300
+        fixed md:sticky top-0 left-0 h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 text-white
+        transition-all duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700/50
+        ${isOpen ? 'w-72' : 'w-20'}
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}
     >
-      {/* Header */}
-      {/* Botón cerrar/abrir sidebar fuera del avatar */}
-      <div className={`flex items-center justify-end pt-4 pr-4 ${collapsed ? 'pl-2' : 'pl-0'}`}>
-        <button
-          className="p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
-          title={collapsed ? 'Abrir sidebar' : 'Cerrar sidebar'}
-          onClick={() => setCollapsed((c) => !c)}
-        >
-          <ChevronLeft size={22} className={`text-slate-400 transition-transform ${collapsed ? 'rotate-180' : ''}`} />
-        </button>
-      </div>
-      <div className={`flex flex-col items-center pb-6 ${collapsed ? 'px-2 pt-4' : 'px-6 pt-8'}`}>
-        <div className={`w-14 h-14 rounded-2xl bg-violet-100 flex items-center justify-center mb-2 ${collapsed ? 'mx-auto' : ''}`}>
-          <User size={32} className="text-violet-500" />
-        </div>
-        {!collapsed && (
-          <div className="text-center">
-            <div className="text-base font-semibold text-slate-800 leading-tight">Bienvenido</div>
-            <div className="text-lg font-bold text-violet-600">Juan Pérez</div>
+      <div className="flex flex-col h-full">
+        {/* Header elegante con usuario */}
+        <div className="p-5 border-b border-slate-700/50 bg-slate-800/50 backdrop-blur-sm">
+          <div className="flex items-center justify-between mb-4">
+            {isOpen ? (
+              <div className="flex items-center gap-3 flex-1">
+                <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <User size={24} className="text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-slate-400 uppercase tracking-wide">Bienvenido</p>
+                  <p className="font-bold text-lg truncate bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    {userName}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg mx-auto">
+                <User size={20} className="text-white" />
+              </div>
+            )}
+
+            {/* Botón colapsar para desktop */}
+            <button
+              onClick={toggleSidebar}
+              className="hidden md:block p-2 hover:bg-slate-700/50 rounded-lg transition-all duration-200 hover:scale-110"
+            >
+              {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+            </button>
           </div>
-        )}
-      </div>
 
-      {/* Menu */}
-      <nav className={`flex-1 ${collapsed ? 'px-0 mt-2' : 'px-2 mt-2'}`}>
-        <ul className="flex flex-col gap-1">
-          {pages.map((page) => {
-            const Icon = page.icon;
-            const isActive = currentPage === page.id;
-            return (
-              <li key={page.id}>
-                <button
-                  onClick={() => setCurrentPage(page.id)}
-                  className={`
-                    w-full flex items-center ${collapsed ? 'justify-center' : 'gap-4 px-5'} py-3 rounded-xl
-                    text-base font-medium transition cursor-pointer
-                    ${isActive ? page.active : 'text-slate-700 hover:bg-slate-100'}
-                  `}
-                  title={collapsed ? page.name : ''}
-                >
-                  <Icon size={22} strokeWidth={2.2} />
-                  {!collapsed && <span>{page.name}</span>}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-
-      {/* Footer */}
-      <div className={`mt-auto ${collapsed ? 'px-0 pb-2' : 'px-2 pb-4'}`}>
-        <div className={`border-t border-slate-200 pt-4 flex flex-col gap-2 ${collapsed ? 'items-center' : ''}`}>
+          {/* Botón cerrar sesión mejorado */}
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center ${collapsed ? 'justify-center' : 'gap-3 px-5'} py-3 rounded-xl text-base font-medium text-red-600 hover:bg-red-50 transition cursor-pointer`}
-            title="Cerrar Sesión"
+            className={`
+              w-full flex items-center gap-3 p-3 bg-linear-to-r from-red-600 to-red-700
+              hover:from-red-700 hover:to-red-800 rounded-xl transition-all duration-200
+              font-medium shadow-lg hover:shadow-red-500/50 hover:scale-105
+              ${!isOpen && 'justify-center'}
+            `}
           >
             <LogOut size={20} />
-            {!collapsed && <span>Cerrar Sesión</span>}
+            {isOpen && <span>Cerrar Sesión</span>}
           </button>
-          {!collapsed && (
-            <div className="text-center mt-4">
-              <p className="text-xs text-slate-400 font-semibold">Sistema CRM</p>
-              <p className="text-xs text-slate-300">v1.0 • 2025</p>
-            </div>
-          )}
         </div>
+
+        {/* Navegación elegante */}
+        <nav className="flex-1 overflow-y-auto py-6 px-3 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+          <ul className="space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPage === item.id;
+
+              return (
+                <li key={item.id}>
+                  <button
+                    onClick={() => handleMenuClick(item.id)}
+                    className={`
+                      w-full flex items-center gap-4 p-4 rounded-xl
+                      transition-all duration-300 font-medium group
+                      ${isActive
+                        ? `bg-linear-to-r from-${item.color}-600 to-${item.color}-700 shadow-lg shadow-${item.color}-500/50 scale-105`
+                        : 'hover:bg-slate-700/50 hover:scale-105'
+                      }
+                      ${!isOpen && 'justify-center'}
+                    `}
+                    title={!isOpen ? item.label : ''}
+                  >
+                    <div className={`
+                      p-2 rounded-lg transition-all duration-300
+                      ${isActive
+                        ? 'bg-white/20'
+                        : 'bg-slate-700/50 group-hover:bg-slate-600/50'
+                      }
+                    `}>
+                      <Icon size={22} className="shrink-0" />
+                    </div>
+                    {isOpen && (
+                      <span className="text-sm font-semibold truncate">{item.label}</span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Footer */}
+        {isOpen && (
+          <div className="p-4 border-t border-slate-700/50 bg-slate-800/50">
+            <div className="text-center">
+              <p className="text-xs text-slate-400 mb-1">Sistema CRM</p>
+              <p className="text-xs text-slate-500">v1.0 • 2024</p>
+            </div>
+          </div>
+        )}
       </div>
     </aside>
   );

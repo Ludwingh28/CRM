@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Smartphone, Plus, Search, Filter, Calendar, Truck, User, Package, Hash, FileText, Edit, Trash2 } from 'lucide-react';
+import Table from '../components/Table';
 
 const InventarioMovil = () => {
   const [showForm, setShowForm] = useState(false);
@@ -236,69 +237,44 @@ const InventarioMovil = () => {
 
         {/* Lista de productos hermosa */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gradient-to-r from-green-600 to-emerald-700 text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">ID Camión</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Chofer</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">ID Producto</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Nombre Producto</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Fecha Ingreso</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Cantidad</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Detalle</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {productos.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" className="px-6 py-16 text-center">
-                      <Smartphone size={64} className="mx-auto mb-4 text-gray-300" />
-                      <p className="text-gray-500 text-lg font-medium">No hay productos en inventario móvil</p>
-                      <p className="text-gray-400 text-sm mt-2">Agrega tu primer producto usando el botón "Agregar Producto"</p>
-                    </td>
-                  </tr>
-                ) : (
-                  productos.map((producto, index) => (
-                    <tr key={index} className="hover:bg-green-50 transition-colors">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="p-2 bg-green-100 rounded-lg">
-                            <Truck size={16} className="text-green-600" />
-                          </div>
-                          <span className="text-sm font-medium text-gray-900">{producto.idCamion}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-700">{producto.nombreChofer}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{producto.idProducto}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-700">{producto.nombreProducto}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{producto.fechaIngreso}</td>
-                      <td className="px-6 py-4">
-                        <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
-                          {producto.cantidad}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{producto.detalle || '-'}</td>
-                      <td className="px-6 py-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <button className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all hover:scale-110">
-                            <Edit size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(index)}
-                            className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all hover:scale-110"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Table
+            columns={[ 
+              { key: 'idCamion', label: 'ID Camión', className: 'text-white' },
+              { key: 'nombreChofer', label: 'Chofer', className: 'text-white' },
+              { key: 'idProducto', label: 'ID Producto', className: 'text-white' },
+              { key: 'nombreProducto', label: 'Nombre Producto', className: 'text-white' },
+              { key: 'fechaIngreso', label: 'Fecha Ingreso', className: 'text-white' },
+              { key: 'cantidad', label: 'Cantidad', className: 'text-white' },
+              { key: 'detalle', label: 'Detalle', className: 'text-white max-w-xs truncate' },
+            ]}
+            data={productos.map(p => ({
+              ...p,
+              idCamion: <div className="flex items-center gap-2"><div className="p-2 bg-green-100 rounded-lg"><Truck size={16} className="text-green-600" /></div><span className="text-sm font-medium text-white">{p.idCamion}</span></div>,
+              nombreChofer: <span className="text-white">{p.nombreChofer}</span>,
+              idProducto: <span className="text-white">{p.idProducto}</span>,
+              nombreProducto: <span className="text-white">{p.nombreProducto}</span>,
+              fechaIngreso: <span className="text-white">{p.fechaIngreso}</span>,
+              cantidad: <span className="text-white">{p.cantidad}</span>,
+              detalle: <span className="text-white">{p.detalle || '-'}</span>,
+            }))}
+            color="green"
+            solidHeader={true}
+            emptyMessage={<><Smartphone size={64} className="mx-auto mb-4 text-gray-300" /><p className="text-gray-500 text-lg font-medium">No hay productos en inventario móvil</p><p className="text-gray-400 text-sm mt-2">Agrega tu primer producto usando el botón "Agregar Producto"</p></>}
+            actionsHeader="Acciones"
+            renderActions={(_, index) => (
+              <div className="flex items-center justify-center gap-2">
+                <button className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all hover:scale-110 cursor-pointer">
+                  <Edit size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all hover:scale-110 cursor-pointer"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            )}
+          />
         </div>
       </div>
     </div>

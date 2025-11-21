@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ShoppingCart, Plus, Clock, DollarSign, Package, X, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import Table from '../components/Table';
 
 const GestionVentas = () => {
   const [activeTab, setActiveTab] = useState('preventa'); // 'preventa' o 'motivos'
@@ -69,10 +70,10 @@ const GestionVentas = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-4 md:p-6 lg:p-8 relative z-0">
       <div className="max-w-7xl mx-auto">
         {/* Header elegante */}
-        <div className="mb-8">
+        <div className="mb-8 relative z-0">
           <div className="flex items-center gap-4 mb-3">
             <div className="p-4 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg">
               <ShoppingCart className="text-white" size={32} />
@@ -89,7 +90,7 @@ const GestionVentas = () => {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-2xl shadow-xl p-2 mb-6 border border-gray-100">
+        <div className="bg-white rounded-2xl shadow-xl p-2 mb-6 border border-gray-100 relative z-0">
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('preventa')}
@@ -126,10 +127,10 @@ const GestionVentas = () => {
         {activeTab === 'preventa' ? (
           <>
             {/* Botón agregar preventa */}
-            <div className="mb-6">
+            <div className="mb-6 relative z-0">
               <button
                 onClick={() => setShowPreventaForm(!showPreventaForm)}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-purple-500/50 hover:scale-105"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-purple-500/50 hover:scale-105 cursor-pointer"
               >
                 <Plus size={20} />
                 <span>Nueva Preventa</span>
@@ -138,7 +139,7 @@ const GestionVentas = () => {
 
             {/* Formulario Preventa */}
             {showPreventaForm && (
-              <div className="bg-white rounded-2xl shadow-2xl p-8 mb-6 border border-gray-100 animate-fadeIn">
+              <div className="bg-white rounded-2xl shadow-2xl p-8 mb-6 border border-gray-100 animate-fadeIn relative z-0">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
                     <div className="p-2 bg-purple-100 rounded-lg">
@@ -148,7 +149,7 @@ const GestionVentas = () => {
                   </h2>
                   <button
                     onClick={() => setShowPreventaForm(false)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-all cursor-pointer"
                   >
                     <X size={24} className="text-gray-500" />
                   </button>
@@ -274,49 +275,40 @@ const GestionVentas = () => {
             )}
 
             {/* Tabla Preventas */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gradient-to-r from-purple-600 to-purple-700 text-white">
-                    <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Producto</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Precio</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Cantidad</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Horario Entrega</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Hora Registro GPS</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Observaciones</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {preventas.length === 0 ? (
-                      <tr>
-                        <td colSpan="6" className="px-6 py-16 text-center">
-                          <ShoppingCart size={64} className="mx-auto mb-4 text-gray-300" />
-                          <p className="text-gray-500 text-lg font-medium">No hay preventas registradas</p>
-                          <p className="text-gray-400 text-sm mt-2">Crea tu primera preventa usando el botón "Nueva Preventa"</p>
-                        </td>
-                      </tr>
-                    ) : (
-                      preventas.map((preventa, index) => (
-                        <tr key={index} className="hover:bg-purple-50 transition-colors">
-                          <td className="px-6 py-4 text-sm font-medium text-gray-900">{preventa.producto}</td>
-                          <td className="px-6 py-4 text-sm font-semibold text-green-600">${preventa.precio}</td>
-                          <td className="px-6 py-4 text-sm text-gray-600">{preventa.cantidad}</td>
-                          <td className="px-6 py-4 text-sm text-gray-600">{preventa.horarioEntrega}</td>
-                          <td className="px-6 py-4 text-sm text-blue-600 font-medium">{preventa.horaRegistro}</td>
-                          <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{preventa.observaciones || '-'}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 relative z-0 p-2">
+                <Table
+                  columns={[
+                    { key: 'producto', label: 'Producto', className: 'text-white' },
+                    { key: 'precio', label: 'Precio', className: 'text-white' },
+                    { key: 'cantidad', label: 'Cantidad', className: 'text-white' },
+                    { key: 'horarioEntrega', label: 'Horario Entrega', className: 'text-white' },
+                    { key: 'horaRegistro', label: 'Hora Registro GPS', className: 'text-white' },
+                    { key: 'observaciones', label: 'Observaciones', className: 'text-white max-w-xs truncate' },
+                  ]}
+                  data={preventas.map(p => ({
+                    ...p,
+                    producto: <span className="text-white">{p.producto}</span>,
+                    precio: <span className="text-white">{p.precio ? `$${p.precio}` : ''}</span>,
+                    cantidad: <span className="text-white">{p.cantidad}</span>,
+                    horarioEntrega: <span className="text-white">{p.horarioEntrega}</span>,
+                    horaRegistro: <span className="text-white">{p.horaRegistro}</span>,
+                    observaciones: <span className="text-white">{p.observaciones || '-'}</span>,
+                  }))}
+                  color="purple"
+                  emptyMessage={
+                    <div className="flex flex-col items-center justify-center py-8">
+                      <ShoppingCart size={64} className="mx-auto mb-4 text-gray-300" />
+                      <p className="text-gray-500 text-lg font-medium">No hay preventas registradas</p>
+                      <p className="text-gray-400 text-sm mt-2">Crea tu primera preventa usando el botón "Nueva Preventa"</p>
+                    </div>
+                  }
+                />
               </div>
-            </div>
           </>
         ) : (
           <>
             {/* Botón agregar motivo */}
-            <div className="mb-6">
+            <div className="mb-6 relative z-0">
               <button
                 onClick={() => setShowMotivosForm(!showMotivosForm)}
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-700 hover:from-red-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-red-500/50 hover:scale-105"
@@ -328,7 +320,7 @@ const GestionVentas = () => {
 
             {/* Formulario Motivos */}
             {showMotivosForm && (
-              <div className="bg-white rounded-2xl shadow-2xl p-8 mb-6 border border-gray-100 animate-fadeIn">
+              <div className="bg-white rounded-2xl shadow-2xl p-8 mb-6 border border-gray-100 animate-fadeIn relative z-0">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
                     <div className="p-2 bg-red-100 rounded-lg">
@@ -418,13 +410,13 @@ const GestionVentas = () => {
                     <button
                       type="button"
                       onClick={() => setShowMotivosForm(false)}
-                      className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700"
+                      className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700 cursor-pointer"
                     >
                       Cancelar
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-700 hover:from-red-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-red-500/50"
+                      className="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-700 hover:from-red-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-red-500/50 cursor-pointer"
                     >
                       Guardar Motivo
                     </button>
@@ -434,42 +426,31 @@ const GestionVentas = () => {
             )}
 
             {/* Tabla Motivos */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gradient-to-r from-red-600 to-pink-700 text-white">
-                    <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Cliente</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Motivo</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Precio Competencia</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Hora Registro</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {registrosMotivos.length === 0 ? (
-                      <tr>
-                        <td colSpan="4" className="px-6 py-16 text-center">
-                          <XCircle size={64} className="mx-auto mb-4 text-gray-300" />
-                          <p className="text-gray-500 text-lg font-medium">No hay motivos registrados</p>
-                          <p className="text-gray-400 text-sm mt-2">Registra tu primer motivo usando el botón "Registrar Motivo"</p>
-                        </td>
-                      </tr>
-                    ) : (
-                      registrosMotivos.map((registro, index) => (
-                        <tr key={index} className="hover:bg-red-50 transition-colors">
-                          <td className="px-6 py-4 text-sm font-medium text-gray-900">{registro.cliente}</td>
-                          <td className="px-6 py-4 text-sm text-gray-700">{registro.motivo}</td>
-                          <td className="px-6 py-4 text-sm text-orange-600 font-semibold">
-                            {registro.precioCompetencia ? `$${registro.precioCompetencia}` : '-'}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-blue-600 font-medium">{registro.horaRegistro}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 relative z-0 p-2">
+                <Table
+                  columns={[
+                    { key: 'cliente', label: 'Cliente', className: 'text-white' },
+                    { key: 'motivo', label: 'Motivo', className: 'text-white' },
+                    { key: 'precioCompetencia', label: 'Precio Competencia', className: 'text-white' },
+                    { key: 'horaRegistro', label: 'Hora Registro', className: 'text-white' },
+                  ]}
+                  data={registrosMotivos.map(r => ({
+                    ...r,
+                    cliente: <span className="text-white">{r.cliente}</span>,
+                    motivo: <span className="text-white">{r.motivo}</span>,
+                    precioCompetencia: <span className="text-white">{r.precioCompetencia ? `$${r.precioCompetencia}` : '-'}</span>,
+                    horaRegistro: <span className="text-white">{r.horaRegistro}</span>,
+                  }))}
+                  color="red"
+                  emptyMessage={
+                    <div className="flex flex-col items-center justify-center py-8">
+                      <XCircle size={64} className="mx-auto mb-4 text-gray-300" />
+                      <p className="text-gray-500 text-lg font-medium">No hay motivos registrados</p>
+                      <p className="text-gray-400 text-sm mt-2">Registra tu primer motivo usando el botón "Registrar Motivo"</p>
+                    </div>
+                  }
+                />
               </div>
-            </div>
           </>
         )}
       </div>
