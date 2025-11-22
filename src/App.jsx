@@ -43,7 +43,7 @@ function App() {
       {/* Overlay para móvil */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-all duration-300"
+          className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] transition-all duration-300"
           onClick={toggleMobileMenu}
         />
       )}

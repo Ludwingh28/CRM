@@ -96,7 +96,7 @@ const GestionVentas = () => {
               onClick={() => setActiveTab('preventa')}
               className={`
                 flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-                transition-all duration-200 font-semibold
+                transition-all duration-200 font-semibold cursor-pointer
                 ${activeTab === 'preventa'
                   ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg'
                   : 'text-gray-600 hover:bg-gray-50'
@@ -110,7 +110,7 @@ const GestionVentas = () => {
               onClick={() => setActiveTab('motivos')}
               className={`
                 flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-                transition-all duration-200 font-semibold
+                transition-all duration-200 font-semibold cursor-pointer
                 ${activeTab === 'motivos'
                   ? 'bg-gradient-to-r from-red-600 to-pink-700 text-white shadow-lg'
                   : 'text-gray-600 hover:bg-gray-50'
@@ -259,13 +259,13 @@ const GestionVentas = () => {
                     <button
                       type="button"
                       onClick={() => setShowPreventaForm(false)}
-                      className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700"
+                      className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700 cursor-pointer"
                     >
                       Cancelar
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-purple-500/50"
+                      className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-purple-500/50 cursor-pointer"
                     >
                       Guardar Preventa
                     </button>
@@ -311,7 +311,7 @@ const GestionVentas = () => {
             <div className="mb-6 relative z-0">
               <button
                 onClick={() => setShowMotivosForm(!showMotivosForm)}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-700 hover:from-red-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-red-500/50 hover:scale-105"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-700 hover:from-red-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-red-500/50 hover:scale-105 cursor-pointer"
               >
                 <Plus size={20} />
                 <span>Registrar Motivo</span>
@@ -330,7 +330,7 @@ const GestionVentas = () => {
                   </h2>
                   <button
                     onClick={() => setShowMotivosForm(false)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-all cursor-pointer"
                   >
                     <X size={24} className="text-gray-500" />
                   </button>
@@ -368,7 +368,7 @@ const GestionVentas = () => {
                             type="button"
                             onClick={() => setMotivosData(prev => ({ ...prev, motivo }))}
                             className={`
-                              p-4 rounded-xl border-2 transition-all duration-200 text-left
+                              p-4 rounded-xl border-2 transition-all duration-200 text-left cursor-pointer
                               ${motivosData.motivo === motivo
                                 ? 'border-red-500 bg-red-50 scale-105'
                                 : 'border-gray-200 hover:border-red-300 hover:bg-gray-50'

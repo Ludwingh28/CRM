@@ -15,6 +15,7 @@ const CreacionClientes = () => {
   });
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [loadingLocation, setLoadingLocation] = useState(false);
 
   // Obtener ubicación actual del dispositivo al cargar
   useEffect(() => {
@@ -34,6 +35,7 @@ const CreacionClientes = () => {
   // Obtener ubicación del dispositivo manualmente
   const getDeviceLocation = () => {
     if (navigator.geolocation) {
+      setLoadingLocation(true);
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -44,10 +46,12 @@ const CreacionClientes = () => {
           }));
           setSelectedLocation({ lat: latitude, lng: longitude });
           setMapCenter([latitude, longitude]);
+          setLoadingLocation(false);
         },
         (error) => {
           console.error('Error obteniendo ubicación:', error);
           alert('No se pudo obtener la ubicación del dispositivo');
+          setLoadingLocation(false);
         }
       );
     } else {
@@ -239,10 +243,23 @@ const CreacionClientes = () => {
                 <button
                   type="button"
                   onClick={getDeviceLocation}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:scale-105"
+                  disabled={loadingLocation}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
                 >
-                  <Navigation size={18} />
-                  <span>Usar Mi Ubicación</span>
+                  {loadingLocation ? (
+                    <>
+                      <svg className="h-5 w-5 text-white animate-spin" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                      </svg>
+                      <span>Obteniendo ubicación...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Navigation size={18} />
+                      <span>Usar Mi Ubicación</span>
+                    </>
+                  )}
                 </button>
                 <div className="flex-1 text-center p-3 bg-gray-50 rounded-xl border-2 border-gray-200">
                   <p className="text-xs text-gray-500 mb-1">o haz click en el mapa</p>
@@ -269,7 +286,7 @@ const CreacionClientes = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full px-6 py-4 bg-gradient-to-r from-rose-600 to-pink-700 hover:from-rose-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-rose-500/50 hover:scale-105 flex items-center justify-center gap-2"
+                className="w-full px-6 py-4 bg-gradient-to-r from-rose-600 to-pink-700 hover:from-rose-700 hover:to-pink-800 text-white rounded-xl transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-rose-500/50 hover:scale-105 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <UserPlus size={24} />
                 <span>Crear Cliente</span>
