@@ -1,0 +1,1323 @@
+\documentclass[12pt,a4paper]{article}
+
+% Paquetes necesarios
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Configuración de colores
+\definecolor{azuloscuro}{RGB}{0,51,102}
+\definecolor{azulclaro}{RGB}{0,102,204}
+\definecolor{verde}{RGB}{0,153,51}
+\definecolor{rojo}{RGB}{204,0,0}
+\definecolor{grisclaro}{RGB}{240,240,240}
+
+% Configuración de hipervínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=azuloscuro,
+    filecolor=azulclaro,
+    urlcolor=azulclaro,
+    citecolor=azuloscuro,
+    pdftitle={Propuesta CRM - Sistema de Gestión},
+    pdfauthor={Equipo de Desarrollo},
+}
+
+% Configuración de encabezado y pie de página
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Sistema CRM - Propuesta de Negocio}
+\fancyhead[R]{\small \today}
+\fancyfoot[C]{\small Página \thepage\ de \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Configuración de títulos
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{azuloscuro}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{azulclaro}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Comando para cajas de información
+\newtcolorbox{infobox}[1]{
+  colback=grisclaro,
+  colframe=azuloscuro,
+  fonttitle=\bfseries,
+  title=#1
+}
+
+% Comando para cajas de advertencia
+\newtcolorbox{warningbox}[1]{
+  colback=yellow!10,
+  colframe=orange,
+  fonttitle=\bfseries,
+  title=#1
+}
+
+% Comando para cajas de éxito
+\newtcolorbox{successbox}[1]{
+  colback=green!10,
+  colframe=verde,
+  fonttitle=\bfseries,
+  title=#1
+}
+
+% Inicio del documento
+\begin{document}
+
+% Portada
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+
+    {\Huge\bfseries\color{azuloscuro} PROPUESTA DE NEGOCIO\par}
+    \vspace{1cm}
+    {\LARGE Sistema CRM para Gestión de\par}
+    {\LARGE Ventas y Distribución\par}
+    \vspace{2cm}
+
+    \begin{tcolorbox}[width=0.8\textwidth, colback=azulclaro!10, colframe=azuloscuro, arc=5mm]
+        \centering
+        {\Large\bfseries Inversión Total: Bs. 27,000}\\
+        \vspace{0.3cm}
+        {\large (Desarrollo completo del MVP)}\\
+        \vspace{0.2cm}
+        {\footnotesize No incluye hosting ni licencias de base de datos}
+    \end{tcolorbox}
+
+    \vspace{2cm}
+
+    \begin{tabular}{rl}
+        \textbf{Duración:} & 4.5 - 5 meses (19 semanas) \\
+        \textbf{Equipo:} & 3 Developers Jr-Mid \\
+        \textbf{Metodología:} & PUDS + UML \\
+        \textbf{Stack:} & React + Django + PostgreSQL \\
+    \end{tabular}
+
+    \vfill
+
+    {\large Documento Versión 1.0\par}
+    {\large \today\par}
+
+\end{titlepage}
+
+% Tabla de contenidos
+\tableofcontents
+\newpage
+
+% Contenido
+\section{RESUMEN EJECUTIVO}
+
+\subsection{Descripción del Proyecto}
+
+Sistema CRM (Customer Relationship Management) especializado en la gestión de ventas, inventarios y distribución para empresas con canales mayoristas (DM) y minoristas (DH). El sistema permite el control integral desde el almacén hasta la preventa en campo, con geolocalización y seguimiento en tiempo real.
+
+\subsection{Alcance}
+
+Desarrollo completo del MVP (Minimum Viable Product) con funcionalidades CORE del sistema, incluyendo módulos de inventario, gestión de clientes con mapas GPS, preventas y reportería avanzada.
+
+\subsection{Inversión Total}
+
+\begin{infobox}{Inversión en Desarrollo}
+\textbf{Bs. 27,000} (Veintisiete mil bolivianos)
+
+\textit{No incluye: Hosting, infraestructura de servidor, ni licencias de base de datos}
+\end{infobox}
+
+\section{MÓDULOS DEL SISTEMA}
+
+\subsection{Inventario Almacén}
+
+\textbf{Descripción:} Control de productos en almacén central con trazabilidad completa.
+
+\subsubsection{Funcionalidades}
+\begin{itemize}[leftmargin=*]
+    \item Registro de productos (ID, tipo, nombre, cantidades)
+    \item Control de precios (compra, mayorista, minorista)
+    \item Gestión de fechas (ingreso, vencimiento de lotes)
+    \item Alertas de stock bajo
+    \item Historial de movimientos
+    \item Búsqueda y filtros avanzados
+\end{itemize}
+
+\subsubsection{Tiempo Estimado}
+\begin{successbox}{3-4 semanas}
+\begin{itemize}[leftmargin=*]
+    \item Análisis y diseño UML: 4 días
+    \item Backend (Django + APIs): 8 días
+    \item Frontend (React): 7 días
+    \item Testing e integración: 3 días
+\end{itemize}
+\end{successbox}
+
+\subsection{Inventario Móvil}
+
+\textbf{Descripción:} Gestión de productos en camiones/rutas de distribución con sincronización al almacén.
+
+\subsubsection{Funcionalidades}
+\begin{itemize}[leftmargin=*]
+    \item Asignación de productos a camiones
+    \item Control por chofer/ruta
+    \item Integración con inventario almacén (resta automática)
+    \item Validación de stock disponible
+    \item Trazabilidad de productos en tránsito
+    \item Registro de detalles y observaciones
+\end{itemize}
+
+\subsubsection{Tiempo Estimado}
+\begin{successbox}{3-4 semanas}
+\begin{itemize}[leftmargin=*]
+    \item Análisis y diseño UML: 3 días
+    \item Backend (Django + APIs): 7 días
+    \item Frontend (React): 7 días
+    \item Integración con Inventario Almacén: 3 días
+    \item Testing: 2 días
+\end{itemize}
+\end{successbox}
+
+\subsection{Creación de Clientes}
+
+\textbf{Descripción:} Módulo de registro de nuevos clientes con geolocalización GPS.
+
+\subsubsection{Funcionalidades}
+\begin{itemize}[leftmargin=*]
+    \item Registro de datos del cliente (dueña, negocio, celular)
+    \item Asignación de zona (DH/DM)
+    \item Tipo de negocio
+    \item Asignación de día de visita (Lunes-Sábado)
+    \item Geolocalización GPS automática y manual
+    \item Integración con OpenStreetMap
+    \item Validación de datos
+\end{itemize}
+
+\subsubsection{Tiempo Estimado}
+\begin{successbox}{2-3 semanas}
+\begin{itemize}[leftmargin=*]
+    \item Análisis y diseño UML: 3 días
+    \item Backend (Django + APIs + Geo): 5 días
+    \item Frontend (React + Leaflet): 7 días
+    \item Testing: 2 días
+\end{itemize}
+\end{successbox}
+
+\subsection{Gestión de Clientes}
+
+\textbf{Descripción:} Visualización y administración de cartera de clientes con mapas interactivos.
+
+\subsubsection{Funcionalidades}
+\begin{itemize}[leftmargin=*]
+    \item Mapa interactivo con todos los clientes
+    \item Filtros avanzados (zona, ruta, día de visita, búsqueda)
+    \item Visualización de información del cliente en popups
+    \item Tabla dinámica con exportación
+    \item Edición y eliminación de clientes
+    \item Geolocalización del usuario
+\end{itemize}
+
+\subsubsection{Tiempo Estimado}
+\begin{successbox}{3-4 semanas}
+\begin{itemize}[leftmargin=*]
+    \item Análisis y diseño UML: 3 días
+    \item Backend (Django + APIs geoespaciales): 6 días
+    \item Frontend (React + Mapas): 8 días
+    \item Testing e integración: 3 días
+\end{itemize}
+\end{successbox}
+
+\subsection{Gestión de Ventas (Preventas)}
+
+\textbf{Descripción:} Módulo de preventa en campo con validaciones de negocio y control de inventario.
+
+\subsubsection{Funcionalidades}
+\begin{itemize}[leftmargin=*]
+    \item Registro de preventas con productos del almacén
+    \item Validación de precio ($\geq$ precio minorista)
+    \item Validación de stock disponible
+    \item Resta automática de inventario
+    \item Horario de entrega programado
+    \item Timestamp GPS automático
+    \item Observaciones y notas
+    \item Registro de motivos de no venta (7 tipos predefinidos)
+    \item Campo condicional para precio competencia
+\end{itemize}
+
+\subsubsection{Tiempo Estimado}
+\begin{successbox}{4-5 semanas}
+\begin{itemize}[leftmargin=*]
+    \item Análisis y diseño UML: 4 días
+    \item Backend (Django + lógica de negocio): 9 días
+    \item Frontend (React + formularios): 8 días
+    \item Integración con inventario: 3 días
+    \item Testing y validaciones: 4 días
+\end{itemize}
+\end{successbox}
+
+\subsection{Reportes de Ventas}
+
+\textbf{Descripción:} Dashboard con métricas y KPIs de vendedores y ventas.
+
+\subsubsection{Funcionalidades}
+\begin{itemize}[leftmargin=*]
+    \item Filtrado por canal (DH/DM/Todos)
+    \item Métricas por vendedor:
+    \begin{itemize}
+        \item Ruta asignada
+        \item Clientes asignados vs visitados
+        \item Número de preventas
+        \item Porcentaje de cobertura
+        \item Porcentaje de efectividad
+        \item Total de preventa (Bs)
+    \end{itemize}
+    \item Exportación de reportes
+    \item Gráficos y visualizaciones
+\end{itemize}
+
+\subsubsection{Tiempo Estimado}
+\begin{successbox}{3-4 semanas}
+\begin{itemize}[leftmargin=*]
+    \item Análisis y diseño UML: 3 días
+    \item Backend (Django + queries complejas): 7 días
+    \item Frontend (React + Charts): 7 días
+    \item Testing: 3 días
+\end{itemize}
+\end{successbox}
+
+\subsection{Módulos Transversales}
+
+\subsubsection{Autenticación y Autorización}
+\begin{itemize}[leftmargin=*]
+    \item Login/Logout
+    \item Roles y permisos (Admin, Vendedor, Almacenero)
+    \item JWT tokens
+    \item Sesiones seguras
+\end{itemize}
+
+\textbf{Tiempo estimado:} 2 semanas
+
+\subsubsection{Panel de Administración}
+\begin{itemize}[leftmargin=*]
+    \item Dashboard principal
+    \item Gestión de usuarios
+    \item Configuraciones del sistema
+    \item Logs y auditoría
+\end{itemize}
+
+\textbf{Tiempo estimado:} 2 semanas
+
+\section{STACK TECNOLÓGICO}
+
+\subsection{Frontend}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Framework:} React 19.x (JavaScript)
+    \item \textbf{Estilización:} Tailwind CSS v4
+    \item \textbf{Iconos:} Lucide React
+    \item \textbf{Mapas:} Leaflet + OpenStreetMap
+    \item \textbf{Gráficos:} Recharts / Chart.js
+    \item \textbf{Estado:} React Hooks + Context API
+    \item \textbf{Peticiones HTTP:} Axios
+\end{itemize}
+
+\subsection{Backend}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Framework:} Django 4.2+ (Python 3.10+)
+    \item \textbf{API:} Django REST Framework (DRF)
+    \item \textbf{Autenticación:} Django REST Framework JWT
+    \item \textbf{Geolocalización:} GeoDjango
+    \item \textbf{Documentación API:} Swagger/OpenAPI
+\end{itemize}
+
+\subsection{Base de Datos}
+
+Ver sección \ref{sec:comparativa-bd} para análisis comparativo detallado.
+
+\section{ANÁLISIS COMPARATIVO DE BASES DE DATOS}
+\label{sec:comparativa-bd}
+
+\subsection{PostgreSQL (Recomendado)}
+
+\subsubsection{Características}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Licencia:} Open Source (PostgreSQL License)
+    \item \textbf{Costo:} \textcolor{verde}{\textbf{GRATUITO}} $\checkmark$
+    \item \textbf{Versión sugerida:} PostgreSQL 15+
+\end{itemize}
+
+\subsubsection{Ventajas}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] \textcolor{verde}{Gratuito y de código abierto}
+    \item[$\checkmark$] \textcolor{verde}{Extensión PostGIS:} Soporte nativo para datos geoespaciales (crucial para mapas GPS)
+    \item[$\checkmark$] \textcolor{verde}{Alto rendimiento:} Excelente para queries complejas y reportes
+    \item[$\checkmark$] \textcolor{verde}{ACID compliant:} Transacciones confiables
+    \item[$\checkmark$] \textcolor{verde}{JSON nativo:} Almacenamiento de datos flexibles
+    \item[$\checkmark$] \textcolor{verde}{Gran comunidad:} Soporte abundante y documentación
+    \item[$\checkmark$] \textcolor{verde}{Replicación y alta disponibilidad:} Configuración sencilla
+    \item[$\checkmark$] \textcolor{verde}{Integración perfecta con Django:} GeoDjango funciona mejor con PostgreSQL
+    \item[$\checkmark$] \textcolor{verde}{Escalabilidad horizontal:} Mediante extensiones como Citus
+\end{itemize}
+
+\subsubsection{Desventajas}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\triangleright$] No tiene soporte comercial oficial (aunque hay empresas que lo ofrecen)
+    \item[$\triangleright$] Requiere más conocimiento técnico para optimización avanzada
+\end{itemize}
+
+\subsubsection{Caso de Uso Ideal}
+\begin{successbox}{PERFECTO para este proyecto}
+Debido a:
+\begin{itemize}[leftmargin=*]
+    \item Funcionalidades geoespaciales (mapas de clientes)
+    \item Costo cero
+    \item Rendimiento superior en reportes complejos
+    \item Compatibilidad nativa con Django
+\end{itemize}
+\end{successbox}
+
+\subsection{SQL Server}
+
+\subsubsection{Características}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Licencia:} Comercial (Microsoft)
+    \item \textbf{Costo (Express):} \textcolor{verde}{\textbf{GRATUITO}} con limitaciones
+    \item \textbf{Costo (Standard):} $\sim$USD \$3,717 (2 cores)
+    \item \textbf{Costo (Enterprise):} $\sim$USD \$14,256 (2 cores)
+    \item \textbf{Versión sugerida:} SQL Server 2022
+\end{itemize}
+
+\subsubsection{Ventajas SQL Server}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] \textbf{Herramientas visuales:} SSMS (SQL Server Management Studio) muy potente
+    \item[$\checkmark$] \textbf{Integración con ecosistema Microsoft:} Si ya usan Azure/Windows
+    \item[$\checkmark$] \textbf{SQL Server Express:} Versión gratuita para proyectos pequeños
+    \item[$\checkmark$] \textbf{Reportes nativos:} SQL Server Reporting Services (SSRS)
+    \item[$\checkmark$] \textbf{Soporte comercial:} Soporte técnico oficial de Microsoft
+    \item[$\checkmark$] \textbf{Business Intelligence:} Herramientas integradas (SSIS, SSAS)
+\end{itemize}
+
+\subsubsection{Limitaciones SQL Server Express (Gratuito)}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\triangleright$] Máximo 10 GB por base de datos
+    \item[$\triangleright$] Máximo 1 GB de RAM para buffer pool
+    \item[$\triangleright$] Máximo 4 cores
+    \item[$\triangleright$] Sin SQL Server Agent (tareas programadas)
+    \item[$\triangleright$] Sin funcionalidades avanzadas de BI
+\end{itemize}
+
+\subsubsection{Desventajas}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\times$] \textcolor{rojo}{Costo elevado} para versiones productivas
+    \item[$\times$] \textcolor{rojo}{Licenciamiento complejo} por cores/usuarios
+    \item[$\times$] Dependencia de Windows Server (aunque existe en Linux)
+    \item[$\times$] Soporte geoespacial limitado comparado con PostGIS
+    \item[$\times$] Menos compatible con Django (requiere drivers adicionales)
+\end{itemize}
+
+\subsubsection{Caso de Uso Ideal}
+Organizaciones que ya tienen infraestructura Microsoft y presupuesto para licencias.
+
+\subsection{Oracle Database}
+
+\subsubsection{Características}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Licencia:} Comercial (Oracle Corporation)
+    \item \textbf{Costo (Standard Edition 2):} $\sim$USD \$17,500 por procesador
+    \item \textbf{Costo (Enterprise Edition):} $\sim$USD \$47,500 por procesador
+    \item \textbf{Costo (Express Edition):} \textcolor{verde}{\textbf{GRATUITO}} con limitaciones severas
+    \item \textbf{Versión sugerida:} Oracle 19c/21c
+\end{itemize}
+
+\subsubsection{Ventajas Oracle}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] \textbf{PL/SQL:} Lenguaje procedural muy potente
+    \item[$\checkmark$] \textbf{Rendimiento extremo:} Optimizado para grandes volúmenes
+    \item[$\checkmark$] \textbf{Oracle Spatial:} Funcionalidades geoespaciales avanzadas (requiere Enterprise)
+    \item[$\checkmark$] \textbf{Alta disponibilidad:} RAC (Real Application Clusters)
+    \item[$\checkmark$] \textbf{Seguridad avanzada:} Cifrado, auditoría, VPD
+    \item[$\checkmark$] \textbf{Soporte empresarial:} Soporte técnico de clase mundial
+    \item[$\checkmark$] \textbf{Particionamiento:} Manejo eficiente de tablas masivas
+    \item[$\checkmark$] \textbf{Recuperación ante desastres:} Data Guard
+\end{itemize}
+
+\subsubsection{Limitaciones Oracle Express Edition (XE) - Gratuito}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\triangleright$] Máximo 12 GB de datos de usuario
+    \item[$\triangleright$] Máximo 2 GB de RAM
+    \item[$\triangleright$] Máximo 2 threads CPU
+    \item[$\triangleright$] Solo 1 instancia por máquina
+    \item[$\triangleright$] \textcolor{rojo}{SIN Oracle Spatial} (funcionalidades geoespaciales)
+    \item[$\triangleright$] SIN particionamiento
+    \item[$\triangleright$] SIN RAC
+\end{itemize}
+
+\subsubsection{Desventajas}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\times$] \textcolor{rojo}{\textbf{COSTO PROHIBITIVO:}} Licencias extremadamente caras
+    \item[$\times$] \textcolor{rojo}{Licenciamiento complejo:} Auditorías de Oracle son temidas
+    \item[$\times$] Requiere DBA especializado: Curva de aprendizaje muy alta
+    \item[$\times$] Soporte geoespacial solo en Enterprise: Oracle Spatial no está en Standard
+    \item[$\times$] Integración con Django: Requiere cx\_Oracle, más complejo
+    \item[$\times$] Overkill para este proyecto: Las capacidades superan las necesidades
+\end{itemize}
+
+\subsubsection{Caso de Uso Ideal}
+Grandes corporaciones con presupuestos millonarios, requisitos de misión crítica 24/7, y cientos de miles de transacciones por segundo.
+
+\subsection{Comparativa Resumida}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Característica}} & \textcolor{white}{\textbf{PostgreSQL}} & \textcolor{white}{\textbf{SQL Server}} & \textcolor{white}{\textbf{Oracle}} \\
+\hline
+\textbf{Costo} & \cellcolor{green!20}Gratis & Express gratis / Std \$3.7K & \cellcolor{red!20}XE gratis / SE2 \$17.5K \\
+\hline
+\textbf{Geoespacial} & \cellcolor{green!20}PostGIS excelente & Básico & \cellcolor{red!20}Solo en Enterprise \\
+\hline
+\textbf{Django} & \cellcolor{green!20}Nativo (GeoDjango) & Requiere drivers & Requiere cx\_Oracle \\
+\hline
+\textbf{Escalabilidad} & \cellcolor{green!20}Excelente & Muy buena & Excepcional \\
+\hline
+\textbf{Curva aprendizaje} & Media & \cellcolor{green!20}Fácil (SSMS) & \cellcolor{red!20}Alta (DBA) \\
+\hline
+\textbf{Comunidad} & \cellcolor{green!20}Enorme & Grande & Empresarial \\
+\hline
+\textbf{Soporte comercial} & Terceros & \cellcolor{green!20}Microsoft & Oracle \\
+\hline
+\textbf{Licenciamiento} & \cellcolor{green!20}Simple & Complejo & \cellcolor{red!20}Muy complejo \\
+\hline
+\end{tabular}
+\caption{Comparativa de Bases de Datos}
+\end{table}
+
+\subsection{Recomendación para este Proyecto}
+
+\begin{successbox}{⭐ RECOMENDACIÓN PRINCIPAL: PostgreSQL 15+}
+\textbf{Justificación:}
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Costo cero} permite maximizar el margen del proyecto
+    \item \textbf{PostGIS} es superior para mapas de clientes con GPS
+    \item \textbf{Django tiene soporte nativo} (GeoDjango)
+    \item \textbf{Rendimiento excelente} para reportes y queries complejas
+    \item \textbf{Escalable} para crecimiento futuro sin costos adicionales
+    \item \textbf{Comunidad activa} facilita resolver problemas
+\end{enumerate}
+\end{successbox}
+
+\begin{infobox}{Alternativa si el cliente lo requiere: SQL Server Express}
+\begin{itemize}[leftmargin=*]
+    \item Solo si ya tienen infraestructura Microsoft
+    \item Solo si el volumen de datos no superará 10 GB
+    \item Migrar a Standard si crece (\$3,717)
+\end{itemize}
+\end{infobox}
+
+\begin{warningbox}{❌ NO RECOMENDADO: Oracle}
+\begin{itemize}[leftmargin=*]
+    \item Costo desproporcionado para este proyecto
+    \item Oracle Spatial no está disponible en versiones accesibles
+    \item Complejidad innecesaria
+    \item ROI negativo
+\end{itemize}
+\end{warningbox}
+
+\section{INFRAESTRUCTURA Y DESPLIEGUE}
+
+\subsection{Arquitectura Recomendada}
+\textbf{VPS (Virtual Private Server)} en proveedor cloud confiable.
+
+\subsection{Comparativa de Proveedores}
+
+\subsubsection{Hostinger VPS}
+
+\textbf{Planes recomendados:}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Plan}} & \textcolor{white}{\textbf{CPU}} & \textcolor{white}{\textbf{RAM}} & \textcolor{white}{\textbf{Almacenamiento}} & \textcolor{white}{\textbf{Tráfico}} & \textcolor{white}{\textbf{Precio/mes}} \\
+\hline
+VPS 1 & 1 vCore & 4 GB & 50 GB SSD & 1 TB & $\sim$\$8.99 \\
+\hline
+VPS 2 & 2 vCores & 8 GB & 100 GB SSD & 2 TB & $\sim$\$12.99 \\
+\hline
+VPS 3 & 4 vCores & 12 GB & 150 GB SSD & 3 TB & $\sim$\$19.99 \\
+\hline
+\end{tabular}
+\caption{Planes Hostinger VPS}
+\end{table}
+
+\textbf{Ventajas Hostinger:}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Panel de control intuitivo (hPanel)
+    \item[$\checkmark$] Precio muy competitivo
+    \item[$\checkmark$] Soporte 24/7 en español
+    \item[$\checkmark$] Backups semanales automáticos
+    \item[$\checkmark$] IPv6 incluido
+    \item[$\checkmark$] Configuración rápida
+    \item[$\checkmark$] Ideal para startups
+\end{itemize}
+
+\textbf{Desventajas:}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\triangleright$] SLA 99.9\% (menor que enterprise)
+    \item[$\triangleright$] Recursos compartidos (aunque garantizados)
+\end{itemize}
+
+\subsubsection{DigitalOcean Droplets}
+
+\textbf{Planes recomendados:}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Plan}} & \textcolor{white}{\textbf{CPU}} & \textcolor{white}{\textbf{RAM}} & \textcolor{white}{\textbf{Almacenamiento}} & \textcolor{white}{\textbf{Transferencia}} & \textcolor{white}{\textbf{Precio/mes}} \\
+\hline
+Basic & 1 vCPU & 2 GB & 50 GB SSD & 2 TB & \$12 \\
+\hline
+Basic & 2 vCPUs & 4 GB & 80 GB SSD & 4 TB & \$24 \\
+\hline
+General & 2 vCPUs & 8 GB & 160 GB SSD & 5 TB & \$48 \\
+\hline
+\end{tabular}
+\caption{Planes DigitalOcean Droplets}
+\end{table}
+
+\textbf{Ventajas DigitalOcean:}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] SLA 99.99\%
+    \item[$\checkmark$] Excelente documentación técnica
+    \item[$\checkmark$] API completa para automatización
+    \item[$\checkmark$] Snapshots y backups fáciles
+    \item[$\checkmark$] Marketplace con imágenes preconfiguradas
+    \item[$\checkmark$] Escalabilidad horizontal sencilla
+    \item[$\checkmark$] Comunidad técnica muy activa
+\end{itemize}
+
+\textbf{Desventajas:}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\triangleright$] Precio ligeramente mayor
+    \item[$\triangleright$] Soporte básico no incluido (solo tickets)
+\end{itemize}
+
+\subsection{Recomendación de Hosting}
+
+\begin{successbox}{⭐ RECOMENDACIÓN PRINCIPAL: DigitalOcean Droplet 2 vCPUs / 4 GB RAM}
+\textbf{Precio:} USD \$24/mes ($\sim$Bs. 165/mes)
+
+\textbf{Justificación:}
+\begin{enumerate}[leftmargin=*]
+    \item Balance perfecto entre precio y rendimiento
+    \item SLA 99.99\% confiable
+    \item Excelente para Django + PostgreSQL
+    \item Escalable cuando crezca el negocio
+    \item Documentación superior para desarrollo
+    \item Snapshots antes de actualizaciones
+\end{enumerate}
+
+\textbf{Configuración Recomendada:}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{OS:} Ubuntu 22.04 LTS
+    \item \textbf{Web Server:} Nginx
+    \item \textbf{WSGI:} Gunicorn
+    \item \textbf{Base de Datos:} PostgreSQL 15
+    \item \textbf{SSL:} Let's Encrypt (gratis)
+    \item \textbf{Monitoreo:} Uptime Robot (gratis)
+    \item \textbf{Backups:} DigitalOcean Backups automáticos (+20\% costo)
+\end{itemize}
+\end{successbox}
+
+\begin{infobox}{Alternativa económica: Hostinger VPS 2}
+\begin{itemize}[leftmargin=*]
+    \item Para presupuestos más ajustados
+    \item Precio: USD \$12.99/mes ($\sim$Bs. 90/mes)
+    \item Suficiente para MVP inicial
+\end{itemize}
+\end{infobox}
+
+\section{CRONOGRAMA DE DESARROLLO}
+
+\subsection{Equipo de Desarrollo}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{3 Developers (Nivel Jr-Mid)}
+    \item \textbf{Metodología:} PUDS (Proceso Unificado de Desarrollo de Software)
+    \item \textbf{Modelado:} UML
+\end{itemize}
+
+\subsection{Fases del PUDS}
+
+\subsubsection{FASE 1: INICIO (2 semanas)}
+
+\textbf{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Entender la visión del negocio
+    \item Definir casos de uso principales
+    \item Crear plan de proyecto
+    \item Estimar riesgos
+\end{itemize}
+
+\textbf{Entregables:}
+\begin{itemize}[leftmargin=*]
+    \item Documento de Visión
+    \item Casos de Uso preliminares
+    \item Plan de desarrollo
+    \item Arquitectura candidata
+\end{itemize}
+
+\textbf{Esfuerzo:} 120 horas (40h por developer)
+
+\subsubsection{FASE 2: ELABORACIÓN (3 semanas)}
+
+\textbf{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Definir arquitectura
+    \item Casos de uso detallados
+    \item Diagramas UML completos
+    \item Prototipos de alto riesgo
+\end{itemize}
+
+\textbf{Actividades:}
+\begin{itemize}[leftmargin=*]
+    \item Diagramas de Casos de Uso (todos los módulos)
+    \item Diagramas de Clases (modelo de datos)
+    \item Diagramas de Secuencia (flujos críticos)
+    \item Diagramas de Actividad (procesos de negocio)
+    \item Diagramas de Componentes (arquitectura)
+    \item Diagramas de Despliegue (infraestructura)
+    \item Diseño de BD (modelo ER)
+    \item Prototipo UI/UX (Figma)
+\end{itemize}
+
+\textbf{Entregables:}
+\begin{itemize}[leftmargin=*]
+    \item Modelo de Casos de Uso completo
+    \item Modelo de Análisis y Diseño (UML)
+    \item Arquitectura de Software documentada
+    \item Prototipo navegable
+    \item Plan de iteraciones
+\end{itemize}
+
+\textbf{Esfuerzo:} 180 horas (60h por developer)
+
+\subsubsection{FASE 3: CONSTRUCCIÓN (12 semanas)}
+
+\textbf{Iteración 1: Infraestructura Base (2 semanas)}
+
+\textit{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Configurar entorno desarrollo
+    \item Setup Django + React
+    \item Configurar PostgreSQL
+    \item Autenticación JWT
+    \item CI/CD básico
+\end{itemize}
+
+\textit{Esfuerzo:} 120 horas
+
+\textbf{Iteración 2: Módulo Inventario (4 semanas)}
+
+\textit{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Inventario Almacén (backend + frontend)
+    \item Inventario Móvil (backend + frontend)
+    \item Integración entre inventarios
+    \item Testing unitario
+\end{itemize}
+
+\textit{Esfuerzo:} 240 horas
+
+\textbf{Iteración 3: Módulo Clientes (3 semanas)}
+
+\textit{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Creación de Clientes (backend + frontend + mapas)
+    \item Gestión de Clientes (backend + frontend + mapas)
+    \item Integración PostGIS
+    \item Testing
+\end{itemize}
+
+\textit{Esfuerzo:} 180 horas
+
+\textbf{Iteración 4: Módulo Ventas (3 semanas)}
+
+\textit{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Gestión de Preventas (backend + frontend)
+    \item Motivos de No Venta (backend + frontend)
+    \item Integración con Inventario
+    \item Validaciones de negocio
+    \item Testing
+\end{itemize}
+
+\textit{Esfuerzo:} 180 horas
+
+\textbf{Esfuerzo Total Construcción:} 720 horas
+
+\subsubsection{FASE 4: TRANSICIÓN (2 semanas)}
+
+\textbf{Objetivos:}
+\begin{itemize}[leftmargin=*]
+    \item Testing integral
+    \item Corrección de bugs
+    \item Documentación de usuario
+    \item Capacitación
+    \item Despliegue a producción
+    \item Soporte inicial
+\end{itemize}
+
+\textbf{Actividades:}
+\begin{itemize}[leftmargin=*]
+    \item Testing de integración
+    \item Testing de aceptación (UAT)
+    \item Corrección de defectos
+    \item Manual de usuario
+    \item Manual técnico
+    \item Capacitación al cliente
+    \item Migración de datos (si aplica)
+    \item Despliegue
+\end{itemize}
+
+\textbf{Entregables:}
+\begin{itemize}[leftmargin=*]
+    \item Sistema en producción
+    \item Manuales de usuario
+    \item Documentación técnica
+    \item Video tutoriales
+    \item Acta de entrega
+\end{itemize}
+
+\textbf{Esfuerzo:} 120 horas
+
+\subsection{Resumen de Cronograma}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|p{5cm}|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Fase}} & \textcolor{white}{\textbf{Duración}} & \textcolor{white}{\textbf{Esfuerzo (horas)}} & \textcolor{white}{\textbf{Entregables Clave}} \\
+\hline
+\textbf{Inicio} & 2 semanas & 120h & Documento Visión, Casos de Uso \\
+\hline
+\textbf{Elaboración} & 3 semanas & 180h & Arquitectura, UML completo, Prototipo \\
+\hline
+\textbf{Construcción} & 12 semanas & 720h & Sistema funcional completo \\
+\hline
+\textbf{Transición} & 2 semanas & 120h & Sistema en producción \\
+\hline
+\rowcolor{grisclaro}
+\textbf{TOTAL} & \textbf{19 semanas} & \textbf{1,140h} & \textbf{CRM Productivo} \\
+\hline
+\end{tabular}
+\caption{Resumen del Cronograma}
+\end{table}
+
+\textbf{Duración aproximada:} 4.5 - 5 meses
+
+\textbf{Distribución por developer:}
+\begin{itemize}[leftmargin=*]
+    \item Developer 1: $\sim$380 horas (Backend Lead)
+    \item Developer 2: $\sim$380 horas (Frontend Lead)
+    \item Developer 3: $\sim$380 horas (Fullstack + DB)
+\end{itemize}
+
+\subsection{Hitos Críticos}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|p{7cm}|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Hito}} & \textcolor{white}{\textbf{Fecha}} & \textcolor{white}{\textbf{Descripción}} \\
+\hline
+H1 & Semana 2 & Aprobación de Visión y Plan \\
+\hline
+H2 & Semana 5 & Aprobación de Arquitectura y Diseño UML \\
+\hline
+H3 & Semana 7 & Infraestructura y Autenticación \\
+\hline
+H4 & Semana 11 & Módulo Inventario completo \\
+\hline
+H5 & Semana 14 & Módulo Clientes completo \\
+\hline
+H6 & Semana 17 & Módulo Ventas completo \\
+\hline
+H7 & Semana 19 & Sistema en Producción \\
+\hline
+\end{tabular}
+\caption{Hitos del Proyecto}
+\end{table}
+
+\section{DESGLOSE DE COSTOS}
+
+\subsection{Desarrollo del Sistema (CORE)}
+
+\begin{successbox}{Precio: Bs. 27,000}
+\textbf{Incluye:}
+\begin{itemize}[leftmargin=*]
+    \item[$\checkmark$] Análisis y diseño UML completo
+    \item[$\checkmark$] Desarrollo de todos los módulos CORE
+    \item[$\checkmark$] Testing integral
+    \item[$\checkmark$] Documentación técnica y de usuario
+    \item[$\checkmark$] Capacitación (8 horas)
+    \item[$\checkmark$] 30 días de soporte post-entrega
+\end{itemize}
+
+\textbf{Forma de pago sugerida:}
+\begin{itemize}[leftmargin=*]
+    \item 40\% (Bs. 10,800) - Inicio del proyecto
+    \item 30\% (Bs. 8,100) - Entrega de módulos Inventario
+    \item 30\% (Bs. 8,100) - Entrega final y puesta en producción
+\end{itemize}
+\end{successbox}
+
+\subsection{Infraestructura (NO INCLUIDA)}
+
+\subsubsection{Opción 1: PostgreSQL en DigitalOcean (Recomendado)}
+
+\textbf{Costos mensuales:}
+\begin{itemize}[leftmargin=*]
+    \item VPS 2 vCPUs / 4 GB RAM: USD \$24/mes ($\sim$Bs. 165/mes)
+    \item Backups automáticos: USD \$4.80/mes ($\sim$Bs. 33/mes)
+    \item \textbf{Total:} USD \$28.80/mes ($\sim$\textbf{Bs. 198/mes})
+\end{itemize}
+
+\textbf{Costo anual:} $\sim$Bs. 2,376/año
+
+\subsubsection{Opción 2: PostgreSQL en Hostinger (Económica)}
+
+\textbf{Costos mensuales:}
+\begin{itemize}[leftmargin=*]
+    \item VPS 2 (2 vCores / 8 GB): USD \$12.99/mes ($\sim$Bs. 90/mes)
+    \item \textbf{Total:} USD \$12.99/mes ($\sim$\textbf{Bs. 90/mes})
+\end{itemize}
+
+\textbf{Costo anual:} $\sim$Bs. 1,080/año
+
+\subsubsection{Opción 3: SQL Server Standard (Si lo requieren)}
+
+\textbf{Costos iniciales:}
+\begin{itemize}[leftmargin=*]
+    \item Licencia SQL Server Standard: USD \$3,717 ($\sim$Bs. 25,669)
+    \item VPS 2 vCPUs / 4 GB RAM: USD \$24/mes ($\sim$Bs. 165/mes)
+\end{itemize}
+
+\textbf{Costo año 1:} $\sim$Bs. 27,649
+
+\textbf{Costo años siguientes:} $\sim$Bs. 1,980/año (solo hosting)
+
+\subsubsection{Opción 4: Oracle (NO RECOMENDADO)}
+
+\begin{warningbox}{Costos Prohibitivos}
+\textbf{Costos iniciales:}
+\begin{itemize}[leftmargin=*]
+    \item Licencia Oracle SE2: USD \$17,500 ($\sim$Bs. 120,750) 💸
+    \item VPS robusto requerido: USD \$48/mes ($\sim$Bs. 331/mes)
+    \item DBA especializado: Costo adicional
+\end{itemize}
+
+\textbf{Costo año 1:} $\sim$Bs. 124,722 ❌ \textcolor{rojo}{\textbf{INVIABLE}}
+\end{warningbox}
+
+\subsection{Costos Adicionales Opcionales}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|p{5cm}|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Concepto}} & \textcolor{white}{\textbf{Costo}} & \textcolor{white}{\textbf{Nota}} \\
+\hline
+Dominio (.com) & Bs. 100/año & Registro inicial \\
+\hline
+SSL Certificado & \cellcolor{green!20}GRATIS & Let's Encrypt \\
+\hline
+Monitoreo (UptimeRobot) & \cellcolor{green!20}GRATIS & Plan básico \\
+\hline
+CDN (Cloudflare) & \cellcolor{green!20}GRATIS & Plan básico \\
+\hline
+Soporte mensual & Bs. 500/mes & Post-garantía \\
+\hline
+Mantenimiento & Bs. 1,500/mes & Incluye actualizaciones \\
+\hline
+\end{tabular}
+\caption{Costos Adicionales}
+\end{table}
+
+\subsection{Inversión Total Primer Año}
+
+\subsubsection{Escenario 1: PostgreSQL + DigitalOcean (RECOMENDADO) ⭐}
+\begin{itemize}[leftmargin=*]
+    \item Desarrollo: Bs. 27,000
+    \item Hosting anual: Bs. 2,376
+    \item Dominio: Bs. 100
+    \item \textbf{TOTAL AÑO 1:} \textcolor{verde}{\textbf{Bs. 29,476}}
+\end{itemize}
+
+\subsubsection{Escenario 2: PostgreSQL + Hostinger (ECONÓMICO)}
+\begin{itemize}[leftmargin=*]
+    \item Desarrollo: Bs. 27,000
+    \item Hosting anual: Bs. 1,080
+    \item Dominio: Bs. 100
+    \item \textbf{TOTAL AÑO 1:} \textcolor{verde}{\textbf{Bs. 28,180}}
+\end{itemize}
+
+\subsubsection{Escenario 3: SQL Server Standard (SI LO REQUIEREN)}
+\begin{itemize}[leftmargin=*]
+    \item Desarrollo: Bs. 27,000
+    \item Licencia SQL Server: Bs. 25,669
+    \item Hosting anual: Bs. 1,980
+    \item Dominio: Bs. 100
+    \item \textbf{TOTAL AÑO 1:} \textcolor{orange}{\textbf{Bs. 54,749}}
+\end{itemize}
+
+\section{METODOLOGÍA DE DESARROLLO}
+
+\subsection{PUDS (Proceso Unificado de Desarrollo de Software)}
+
+\subsubsection{Principios Clave}
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Dirigido por Casos de Uso:} Los casos de uso guían el desarrollo
+    \item \textbf{Centrado en la Arquitectura:} Arquitectura sólida desde el inicio
+    \item \textbf{Iterativo e Incremental:} Entregas parciales funcionales
+    \item \textbf{Gestión de Riesgos:} Identificación y mitigación temprana
+\end{enumerate}
+
+\subsubsection{Workflows (Disciplinas)}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Modelado del Negocio:} Entender procesos del cliente
+    \item \textbf{Requisitos:} Captura con casos de uso UML
+    \item \textbf{Análisis y Diseño:} Diagramas UML completos
+    \item \textbf{Implementación:} Codificación en iteraciones
+    \item \textbf{Pruebas:} Testing continuo
+    \item \textbf{Despliegue:} CI/CD
+\end{itemize}
+
+\subsection{Artefactos UML a Generar}
+
+\subsubsection{Diagramas Estructurales}
+\begin{enumerate}[leftmargin=*]
+    \item Diagrama de Clases: Modelo de dominio completo
+    \item Diagrama de Objetos: Instancias de ejemplo
+    \item Diagrama de Componentes: Arquitectura de software
+    \item Diagrama de Despliegue: Infraestructura física/virtual
+    \item Diagrama de Paquetes: Organización de módulos
+\end{enumerate}
+
+\subsubsection{Diagramas de Comportamiento}
+\begin{enumerate}[leftmargin=*]
+    \item Diagrama de Casos de Uso: 15-20 casos de uso principales
+    \item Diagrama de Secuencia: Flujos críticos (10+)
+    \item Diagrama de Actividad: Procesos de negocio (6+)
+    \item Diagrama de Estado: Ciclo de vida de entidades clave
+    \item Diagrama de Comunicación: Interacción entre objetos
+\end{enumerate}
+
+\subsubsection{Modelo de Datos}
+\begin{enumerate}[leftmargin=*]
+    \item Modelo Entidad-Relación (ER): Base de datos completa
+    \item Modelo Relacional: Normalización 3FN
+    \item Script DDL: Creación de tablas, índices, constraints
+\end{enumerate}
+
+\subsection{Herramientas}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Categoría}} & \textcolor{white}{\textbf{Herramienta}} & \textcolor{white}{\textbf{Uso}} \\
+\hline
+UML & Visual Paradigm / StarUML & Diagramas \\
+\hline
+Gestión & Jira / Trello & Seguimiento tareas \\
+\hline
+Versionado & Git + GitHub/GitLab & Control de versiones \\
+\hline
+CI/CD & GitHub Actions / GitLab CI & Automatización \\
+\hline
+Testing & PyTest / Jest & Pruebas unitarias \\
+\hline
+Documentación & Sphinx / MkDocs & Docs técnicas \\
+\hline
+Prototipado & Figma & Diseño UI/UX \\
+\hline
+\end{tabular}
+\caption{Herramientas de Desarrollo}
+\end{table}
+
+\section{ENTREGABLES}
+
+\subsection{Documentación}
+
+\subsubsection{Fase de Inicio}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Documento de Visión
+    \item[$\checkmark$] Casos de Uso Preliminares
+    \item[$\checkmark$] Plan de Desarrollo de Software
+    \item[$\checkmark$] Glosario de Términos
+\end{itemize}
+
+\subsubsection{Fase de Elaboración}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Especificación de Requisitos (SRS)
+    \item[$\checkmark$] Modelo de Casos de Uso Completo
+    \item[$\checkmark$] Modelo de Análisis y Diseño
+    \item[$\checkmark$] Diagramas UML Completos (15+ diagramas)
+    \item[$\checkmark$] Modelo de Datos (ER + Relacional)
+    \item[$\checkmark$] Documento de Arquitectura de Software
+    \item[$\checkmark$] Prototipo UI/UX Navegable
+\end{itemize}
+
+\subsubsection{Fase de Construcción}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Código Fuente Completo (repositorio Git)
+    \item[$\checkmark$] Scripts de Base de Datos
+    \item[$\checkmark$] Manual Técnico de Instalación
+    \item[$\checkmark$] Documentación de APIs (Swagger)
+    \item[$\checkmark$] Casos de Prueba y Resultados
+\end{itemize}
+
+\subsubsection{Fase de Transición}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Manual de Usuario (PDF + interactivo)
+    \item[$\checkmark$] Video Tutoriales (6+ videos)
+    \item[$\checkmark$] Guía de Administración del Sistema
+    \item[$\checkmark$] Plan de Respaldos y Recuperación
+    \item[$\checkmark$] Acta de Entrega y Aceptación
+\end{itemize}
+
+\subsection{Software}
+
+\subsubsection{Frontend}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Aplicación React (build optimizado)
+    \item[$\checkmark$] Componentes reutilizables
+    \item[$\checkmark$] Responsive Design (móvil/tablet/desktop)
+    \item[$\checkmark$] PWA ready (opcional)
+\end{itemize}
+
+\subsubsection{Backend}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] API REST Django (Django REST Framework)
+    \item[$\checkmark$] Autenticación JWT
+    \item[$\checkmark$] Endpoints documentados
+    \item[$\checkmark$] Migraciones de BD
+    \item[$\checkmark$] Seeds de datos de prueba
+\end{itemize}
+
+\subsubsection{Base de Datos}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Esquema PostgreSQL completo
+    \item[$\checkmark$] Datos de prueba cargados
+    \item[$\checkmark$] Índices optimizados
+    \item[$\checkmark$] Triggers y stored procedures (si se requieren)
+\end{itemize}
+
+\subsubsection{Despliegue}
+\begin{itemize}[itemsep=0pt, leftmargin=*]
+    \item[$\checkmark$] Sistema en producción (VPS configurado)
+    \item[$\checkmark$] Certificado SSL instalado
+    \item[$\checkmark$] Dominio apuntando correctamente
+    \item[$\checkmark$] Backups automáticos configurados
+    \item[$\checkmark$] Monitoreo básico activo
+\end{itemize}
+
+\section{GARANTÍA Y SOPORTE}
+
+\subsection{Garantía}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{30 días de garantía} post-entrega
+    \item Corrección de bugs sin costo adicional
+    \item Soporte técnico vía email/WhatsApp
+\end{itemize}
+
+\subsection{Soporte Post-Garantía}
+
+\textbf{Plan Básico: Bs. 500/mes}
+\begin{itemize}[leftmargin=*]
+    \item Soporte vía email (respuesta en 48h)
+    \item Resolución de bugs
+\end{itemize}
+
+\textbf{Plan Mantenimiento: Bs. 1,500/mes}
+\begin{itemize}[leftmargin=*]
+    \item Soporte prioritario (respuesta en 24h)
+    \item Actualizaciones de seguridad
+    \item Mejoras menores
+    \item Monitoreo proactivo
+\end{itemize}
+
+\section{RIESGOS Y MITIGACIONES}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{4cm}|c|c|p{4cm}|}
+\hline
+\rowcolor{azuloscuro}
+\textcolor{white}{\textbf{Riesgo}} & \textcolor{white}{\textbf{Prob.}} & \textcolor{white}{\textbf{Impacto}} & \textcolor{white}{\textbf{Mitigación}} \\
+\hline
+Cambios de requisitos & Media & Alto & Documentación clara, cambios formales \\
+\hline
+Problemas de rendimiento BD & Baja & Medio & Pruebas de carga, índices optimizados \\
+\hline
+Falta de experiencia equipo & Media & Medio & Capacitación, pair programming \\
+\hline
+Problemas de integración & Media & Alto & Testing continuo, integración temprana \\
+\hline
+Retrasos en desarrollo & Media & Alto & Buffer de 1 semana, seguimiento diario \\
+\hline
+Problemas con geolocalización & Baja & Medio & Pruebas en múltiples dispositivos \\
+\hline
+\end{tabular}
+\caption{Matriz de Riesgos}
+\end{table}
+
+\section{CONCLUSIONES Y RECOMENDACIONES}
+
+\subsection{Resumen Ejecutivo}
+
+\begin{successbox}{Inversión Total Recomendada (Año 1)}
+\begin{itemize}[leftmargin=*]
+    \item Desarrollo: \textbf{Bs. 27,000}
+    \item Infraestructura (PostgreSQL + DigitalOcean): \textbf{Bs. 2,476}
+    \item \textbf{TOTAL: Bs. 29,476}
+\end{itemize}
+
+\textbf{ROI Esperado:}
+\begin{itemize}[leftmargin=*]
+    \item Sistema que optimiza gestión de inventario, clientes y ventas
+    \item Reducción de errores manuales
+    \item Trazabilidad completa
+    \item Reportes en tiempo real
+    \item Escalable para crecimiento
+\end{itemize}
+\end{successbox}
+
+\subsection{Recomendaciones Técnicas}
+
+\subsubsection{✅ Stack Recomendado}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Frontend:} React + Tailwind CSS
+    \item \textbf{Backend:} Django + DRF
+    \item \textbf{BD:} PostgreSQL 15 + PostGIS
+    \item \textbf{Hosting:} DigitalOcean Droplet 2vCPU/4GB
+    \item \textbf{Total mes:} $\sim$USD \$28.80 ($\sim$Bs. 198)
+\end{itemize}
+
+\subsubsection{❌ NO Recomendado}
+\begin{itemize}[leftmargin=*]
+    \item Oracle Database (costo prohibitivo, overkill)
+    \item Shared hosting (no soporta Django adecuadamente)
+    \item MongoDB (requiere datos relacionales)
+\end{itemize}
+
+\subsection{Ventaja Competitiva}
+
+Este sistema ofrece:
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Geolocalización real} de clientes y vendedores
+    \item \textbf{Integración de inventarios} (almacén $\rightarrow$ móvil $\rightarrow$ venta)
+    \item \textbf{Validaciones de negocio} automáticas
+    \item \textbf{Reportería avanzada} con métricas clave
+    \item \textbf{Escalabilidad} sin cambio de arquitectura
+    \item \textbf{Costo contenido} vs soluciones comerciales (Salesforce, Zoho CRM)
+\end{enumerate}
+
+\section{ANEXOS}
+
+\subsection{Anexo A: Casos de Uso Principales}
+
+\begin{enumerate}[leftmargin=*]
+    \item Gestionar Inventario Almacén
+    \item Transferir Productos a Inventario Móvil
+    \item Registrar Cliente con GPS
+    \item Buscar Clientes en Mapa
+    \item Crear Preventa
+    \item Registrar Motivo de No Venta
+    \item Generar Reporte de Vendedor
+    \item Autenticar Usuario
+\end{enumerate}
+
+\subsection{Anexo B: Tecnologías Detalladas}
+
+\subsubsection{Frontend}
+\begin{itemize}[leftmargin=*]
+    \item react: \^{}19.2.0
+    \item tailwindcss: \^{}4.1.17
+    \item react-leaflet: \^{}4.2.1
+    \item leaflet: \^{}1.9.4
+    \item lucide-react: \^{}0.263.1
+    \item axios: \^{}1.6.2
+    \item react-router-dom: \^{}6.20.1
+\end{itemize}
+
+\subsubsection{Backend}
+\begin{itemize}[leftmargin=*]
+    \item Django: \^{}4.2.7
+    \item djangorestframework: \^{}3.14.0
+    \item psycopg2-binary: \^{}2.9.9
+    \item djangorestframework-simplejwt: \^{}5.3.0
+    \item django-cors-headers: \^{}4.3.1
+    \item django-filter: \^{}23.5
+    \item drf-spectacular: \^{}0.27.0
+\end{itemize}
+
+\vfill
+
+\section*{CONTACTO}
+
+\begin{tcolorbox}[colback=azulclaro!10, colframe=azuloscuro, arc=3mm]
+\textbf{Equipo de Desarrollo:}\\
+3 Developers Jr-Mid especializados en React + Django
+
+\vspace{0.3cm}
+
+\textbf{Metodología:}\\
+PUDS (Proceso Unificado de Desarrollo de Software)\\
+Modelado UML completo
+
+\vspace{0.3cm}
+
+\textbf{Duración:} 4.5 - 5 meses
+
+\vspace{0.3cm}
+
+\textbf{Inversión:} Bs. 27,000 (desarrollo) + $\sim$Bs. 2,500 (infraestructura año 1)
+\end{tcolorbox}
+
+\vspace{1cm}
+
+\begin{center}
+\textit{Documento generado: \today}\\
+\textit{Versión: 1.0}\\
+\textit{Confidencial - Para uso del cliente únicamente}
+\end{center}
+
+\end{document}
