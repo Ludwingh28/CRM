@@ -89,7 +89,8 @@ const GestionClientes = () => {
     const matchesRuta = !filterRuta || cliente.zona === filterRuta;
     // Filtrar por zona (DH/DM)
     const matchesZona = !filterZona || filterZona === 'todos' || cliente.zona === filterZona;
-    const matchesDia = !filterDia; // Por ahora, puedes implementar filtro por día después
+    // Filtrar por día de la semana
+    const matchesDia = !filterDia || filterDia === 'todos' || cliente.dia === filterDia;
 
     return matchesSearch && matchesRuta && matchesZona && matchesDia;
   });
@@ -165,14 +166,20 @@ const GestionClientes = () => {
             </div>
 
             {/* Filtro por Día */}
-            <div className="relative">
-              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="date"
+            <div>
+              <select
                 value={filterDia}
                 onChange={(e) => setFilterDia(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
-              />
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+              >
+                <option value="">Todos los Días</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+              </select>
             </div>
           </div>
 

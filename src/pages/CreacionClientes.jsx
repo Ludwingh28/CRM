@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Map from '../components/Map';
-import { UserPlus, MapPin, Navigation, Users, Store, Building2, Phone, CheckCircle } from 'lucide-react';
+import { UserPlus, MapPin, Navigation, Users, Store, Building2, Phone, CheckCircle, Calendar } from 'lucide-react';
 
 const CreacionClientes = () => {
   const [mapCenter, setMapCenter] = useState([-17.823050, -63.217995]); // Default: Santa Cruz (usuario)
@@ -10,6 +10,7 @@ const CreacionClientes = () => {
     nombreVenta: '',
     celular: '',
     tipoNegocio: '',
+    dia: '',
     latitud: '',
     longitud: '',
   });
@@ -96,6 +97,7 @@ const CreacionClientes = () => {
       nombreVenta: '',
       celular: '',
       tipoNegocio: '',
+      dia: '',
       latitud: '',
       longitud: '',
     });
@@ -211,7 +213,7 @@ const CreacionClientes = () => {
                 </div>
 
                 {/* Tipo de Negocio - Listbox (Select) */}
-                <div className="md:col-span-2">
+                <div>
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                     <Building2 size={16} className="text-indigo-600" />
                     Tipo de Negocio
@@ -228,6 +230,29 @@ const CreacionClientes = () => {
                     <option value="venta">Venta/Tienda</option>
                     <option value="condominio">Condominio</option>
                     <option value="otros">Otros</option>
+                  </select>
+                </div>
+
+                {/* Día de Visita */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                    <Calendar size={16} className="text-orange-600" />
+                    Día de Visita
+                  </label>
+                  <select
+                    name="dia"
+                    value={formData.dia}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all bg-white"
+                  >
+                    <option value="">Seleccionar día...</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miércoles">Miércoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
                   </select>
                 </div>
               </div>
