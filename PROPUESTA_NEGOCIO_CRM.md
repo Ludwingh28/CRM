@@ -470,13 +470,13 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 ## 6. CRONOGRAMA DE DESARROLLO
 
 ### 6.1 Equipo de Desarrollo
-- **3 Developers (Nivel Jr-Mid)**
+- **Equipo:** Desarrolladores Especializados
 - **Metodología:** PUDS (Proceso Unificado de Desarrollo de Software)
 - **Modelado:** UML
 
 ### 6.2 Fases del PUDS
 
-#### FASE 1: INICIO (2 semanas)
+#### FASE 1: INICIO (1 semana)
 **Objetivos:**
 - Entender la visión del negocio
 - Definir casos de uso principales
@@ -489,11 +489,11 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 - Plan de desarrollo
 - Arquitectura candidata
 
-**Esfuerzo:** 120 horas (40h por developer)
+**Esfuerzo:** 60 horas
 
 ---
 
-#### FASE 2: ELABORACIÓN (3 semanas)
+#### FASE 2: ELABORACIÓN (2 semanas)
 **Objetivos:**
 - Definir arquitectura
 - Casos de uso detallados
@@ -517,13 +517,13 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 - Prototipo navegable
 - Plan de iteraciones
 
-**Esfuerzo:** 180 horas (60h por developer)
+**Esfuerzo:** 120 horas
 
 ---
 
-#### FASE 3: CONSTRUCCIÓN (12 semanas)
+#### FASE 3: CONSTRUCCIÓN (8 semanas)
 
-##### Iteración 1: Infraestructura Base (2 semanas)
+##### Iteración 1: Infraestructura Base (1 semana)
 **Objetivos:**
 - Configurar entorno desarrollo
 - Setup Django + React
@@ -531,27 +531,27 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 - Autenticación JWT
 - CI/CD básico
 
-**Esfuerzo:** 120 horas
+**Esfuerzo:** 60 horas
 
-##### Iteración 2: Módulo Inventario (4 semanas)
+##### Iteración 2: Módulo Inventario (3 semanas)
 **Objetivos:**
 - Inventario Almacén (backend + frontend)
 - Inventario Móvil (backend + frontend)
 - Integración entre inventarios
 - Testing unitario
 
-**Esfuerzo:** 240 horas
+**Esfuerzo:** 180 horas
 
-##### Iteración 3: Módulo Clientes (3 semanas)
+##### Iteración 3: Módulo Clientes (2 semanas)
 **Objetivos:**
 - Creación de Clientes (backend + frontend + mapas)
 - Gestión de Clientes (backend + frontend + mapas)
 - Integración PostGIS
 - Testing
 
-**Esfuerzo:** 180 horas
+**Esfuerzo:** 120 horas
 
-##### Iteración 4: Módulo Ventas (3 semanas)
+##### Iteración 4: Módulo Ventas (2 semanas)
 **Objetivos:**
 - Gestión de Preventas (backend + frontend)
 - Motivos de No Venta (backend + frontend)
@@ -559,13 +559,13 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 - Validaciones de negocio
 - Testing
 
-**Esfuerzo:** 180 horas
+**Esfuerzo:** 120 horas
 
-**Esfuerzo Total Construcción:** 720 horas
+**Esfuerzo Total Construcción:** 480 horas
 
 ---
 
-#### FASE 4: TRANSICIÓN (2 semanas)
+#### FASE 4: TRANSICIÓN (1 semana)
 **Objetivos:**
 - Testing integral
 - Corrección de bugs
@@ -591,7 +591,7 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 - Video tutoriales
 - Acta de entrega
 
-**Esfuerzo:** 120 horas
+**Esfuerzo:** 60 horas
 
 ---
 
@@ -599,18 +599,13 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 
 | Fase | Duración | Esfuerzo (horas) | Entregables Clave |
 |------|----------|------------------|-------------------|
-| **Inicio** | 2 semanas | 120h | Documento Visión, Casos de Uso |
-| **Elaboración** | 3 semanas | 180h | Arquitectura, UML completo, Prototipo |
-| **Construcción** | 12 semanas | 720h | Sistema funcional completo |
-| **Transición** | 2 semanas | 120h | Sistema en producción |
-| **TOTAL** | **19 semanas** | **1,140h** | **CRM Productivo** |
+| **Inicio** | 1 semana | 60h | Documento Visión, Casos de Uso |
+| **Elaboración** | 2 semanas | 120h | Arquitectura, UML completo, Prototipo |
+| **Construcción** | 8 semanas | 480h | Sistema funcional completo |
+| **Transición** | 1 semana | 60h | Sistema en producción |
+| **TOTAL** | **12 semanas** | **720h** | **CRM Productivo** |
 
-**Duración aproximada:** 4.5 - 5 meses
-
-**Distribución por developer:**
-- Developer 1: ~380 horas (Backend Lead)
-- Developer 2: ~380 horas (Frontend Lead)
-- Developer 3: ~380 horas (Fullstack + DB)
+**Duración aproximada:** 3 meses
 
 ---
 
@@ -618,13 +613,13 @@ Grandes corporaciones con presupuestos millonarios, requisitos de misión críti
 
 | Hito | Fecha | Descripción |
 |------|-------|-------------|
-| H1 | Semana 2 | Aprobación de Visión y Plan |
-| H2 | Semana 5 | Aprobación de Arquitectura y Diseño UML |
-| H3 | Semana 7 | Infraestructura y Autenticación |
-| H4 | Semana 11 | Módulo Inventario completo |
-| H5 | Semana 14 | Módulo Clientes completo |
-| H6 | Semana 17 | Módulo Ventas completo |
-| H7 | Semana 19 | Sistema en Producción |
+| H1 | Semana 1 | Aprobación de Visión y Plan |
+| H2 | Semana 3 | Aprobación de Arquitectura y Diseño UML |
+| H3 | Semana 4 | Infraestructura y Autenticación |
+| H4 | Semana 7 | Módulo Inventario completo |
+| H5 | Semana 9 | Módulo Clientes completo |
+| H6 | Semana 11 | Módulo Ventas completo |
+| H7 | Semana 12 | Sistema en Producción |
 
 ---
 
@@ -958,13 +953,13 @@ Este sistema ofrece:
 ## CONTACTO
 
 **Equipo de Desarrollo:**
-- 3 Developers Jr-Mid especializados en React + Django
+- Desarrolladores Especializados en React + Django
 
 **Metodología:**
 - PUDS (Proceso Unificado de Desarrollo de Software)
 - Modelado UML completo
 
-**Duración:** 4.5 - 5 meses
+**Duración:** 3 meses
 
 **Inversión:** Bs. 27,000 (desarrollo) + ~Bs. 2,500 (infraestructura año 1)
 
