@@ -8,6 +8,8 @@ const GestionVentas = () => {
   const [showMotivosForm, setShowMotivosForm] = useState(false);
   const [preventas, setPreventas] = useState([]);
   const [registrosMotivos, setRegistrosMotivos] = useState([]);
+  const [productosAlmacen, setProductosAlmacen] = useState([]);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
   // Cargar preventas desde localStorage al montar el componente
   useEffect(() => {
@@ -22,6 +24,14 @@ const GestionVentas = () => {
     const stored = localStorage.getItem('registrosMotivos');
     if (stored) {
       setRegistrosMotivos(JSON.parse(stored));
+    }
+  }, []);
+
+  // Cargar productos del almacén
+  useEffect(() => {
+    const stored = localStorage.getItem('inventarioAlmacen');
+    if (stored) {
+      setProductosAlmacen(JSON.parse(stored));
     }
   }, []);
 
@@ -54,6 +64,29 @@ const GestionVentas = () => {
     setPreventaData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleProductoPreventaChange = (e) => {
+    const productoId = e.target.value;
+    if (productoId) {
+      const producto = productosAlmacen.find(p => p.id === productoId);
+      if (producto) {
+        setProductoSeleccionado(producto);
+        setPreventaData(prev => ({
+          ...prev,
+          producto: producto.nombre,
+          precio: producto.precioMinorista, // Precio base es el minorista
+        }));
+      }
+    } else {
+      setProductoSeleccionado(null);
+      setPreventaData(prev => ({
+        ...prev,
+        producto: '',
+        precio: '',
+        cantidad: '',
+      }));
+    }
+  };
+
   const handleMotivosChange = (e) => {
     const { name, value } = e.target;
     setMotivosData(prev => ({ ...prev, [name]: value }));
@@ -61,10 +94,53 @@ const GestionVentas = () => {
 
   const handlePreventaSubmit = (e) => {
     e.preventDefault();
+
+    // Validar que hay producto seleccionado
+    if (!productoSeleccionado) {
+      alert('Selecciona un producto del almacén');
+      return;
+    }
+
+    const precioVenta = parseFloat(preventaData.precio);
+    const precioMinorista = parseFloat(productoSeleccionado.precioMinorista);
+
+    // Validar que el precio no sea menor que el precio minorista
+    if (precioVenta < precioMinorista) {
+      alert(`El precio no puede ser menor que el precio minorista: $${precioMinorista}`);
+      return;
+    }
+
+    const cantidadSolicitada = parseInt(preventaData.cantidad);
+    const cantidadDisponible = parseInt(productoSeleccionado.cantidad);
+
+    // Validar stock disponible
+    if (cantidadSolicitada > cantidadDisponible) {
+      alert(`No hay suficiente stock. Disponible: ${cantidadDisponible} unidades`);
+      return;
+    }
+
+    // Restar del inventario almacén
+    const nuevosProductosAlmacen = productosAlmacen.map(p => {
+      if (p.id === productoSeleccionado.id) {
+        return {
+          ...p,
+          cantidad: (parseInt(p.cantidad) - cantidadSolicitada).toString()
+        };
+      }
+      return p;
+    });
+
+    // Guardar almacén actualizado
+    localStorage.setItem('inventarioAlmacen', JSON.stringify(nuevosProductosAlmacen));
+    setProductosAlmacen(nuevosProductosAlmacen);
+
+    // Guardar preventa
     const horaRegistro = new Date().toLocaleString();
     const newPreventas = [...preventas, { ...preventaData, horaRegistro }];
     setPreventas(newPreventas);
     localStorage.setItem('preventas', JSON.stringify(newPreventas));
+
+    // Resetear formulario
     setPreventaData({
       producto: '',
       precio: '',
@@ -72,6 +148,7 @@ const GestionVentas = () => {
       horarioEntrega: '',
       observaciones: '',
     });
+    setProductoSeleccionado(null);
     setShowPreventaForm(false);
   };
 
@@ -177,32 +254,60 @@ const GestionVentas = () => {
 
                 <form onSubmit={handlePreventaSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Producto */}
-                    <div>
+                    {/* Seleccionar Producto del Almacén */}
+                    <div className="md:col-span-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                         <Package size={16} className="text-purple-600" />
-                        Producto
+                        Seleccionar Producto del Almacén
                       </label>
                       <select
-                        name="producto"
-                        value={preventaData.producto}
-                        onChange={handlePreventaChange}
+                        value={productoSeleccionado ? productoSeleccionado.id : ''}
+                        onChange={handleProductoPreventaChange}
                         required
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       >
                         <option value="">Seleccionar producto...</option>
-                        <option value="Coca Cola 500ml">Coca Cola 500ml</option>
-                        <option value="Pepsi 500ml">Pepsi 500ml</option>
-                        <option value="Sprite 500ml">Sprite 500ml</option>
-                        <option value="Fanta 500ml">Fanta 500ml</option>
+                        {productosAlmacen.filter(p => parseInt(p.cantidad) > 0).map(producto => (
+                          <option key={producto.id} value={producto.id}>
+                            {producto.nombre} - ${producto.precioMinorista} (Disponible: {producto.cantidad})
+                          </option>
+                        ))}
                       </select>
                     </div>
+
+                    {/* Información del producto seleccionado */}
+                    {productoSeleccionado && (
+                      <div className="md:col-span-2 bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                          <AlertCircle size={16} />
+                          Información del Producto
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                          <div>
+                            <span className="text-blue-600 font-medium">ID:</span>
+                            <span className="ml-2 text-gray-800">{productoSeleccionado.id}</span>
+                          </div>
+                          <div>
+                            <span className="text-blue-600 font-medium">Tipo:</span>
+                            <span className="ml-2 text-gray-800">{productoSeleccionado.tipo}</span>
+                          </div>
+                          <div>
+                            <span className="text-blue-600 font-medium">Disponible:</span>
+                            <span className="ml-2 text-gray-800">{productoSeleccionado.cantidad} unidades</span>
+                          </div>
+                          <div>
+                            <span className="text-blue-600 font-medium">Precio Base (Minorista):</span>
+                            <span className="ml-2 text-gray-800">${productoSeleccionado.precioMinorista}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Precio */}
                     <div>
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                         <DollarSign size={16} className="text-green-600" />
-                        Precio (variable sobre precio base)
+                        Precio de Venta {productoSeleccionado && `(Mín: $${productoSeleccionado.precioMinorista})`}
                       </label>
                       <input
                         type="number"
@@ -212,7 +317,7 @@ const GestionVentas = () => {
                         required
                         placeholder="0.00"
                         step="0.01"
-                        min="0"
+                        min={productoSeleccionado ? productoSeleccionado.precioMinorista : "0"}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       />
                     </div>
@@ -221,7 +326,7 @@ const GestionVentas = () => {
                     <div>
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                         <Package size={16} className="text-blue-600" />
-                        Cantidad
+                        Cantidad {productoSeleccionado && `(Máx: ${productoSeleccionado.cantidad})`}
                       </label>
                       <input
                         type="number"
@@ -231,6 +336,7 @@ const GestionVentas = () => {
                         required
                         placeholder="0"
                         min="1"
+                        max={productoSeleccionado ? productoSeleccionado.cantidad : undefined}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       />
                     </div>
@@ -270,7 +376,7 @@ const GestionVentas = () => {
 
                   <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
                     <p className="text-sm text-blue-800">
-                      <strong>Nota:</strong> El horario de registro GPS se guardará automáticamente al crear la preventa.
+                      <strong>Nota:</strong> El precio base es el precio minorista del producto. Puedes aumentarlo pero no reducirlo. El horario de registro GPS se guardará automáticamente al crear la preventa. La cantidad se restará del inventario almacén.
                     </p>
                   </div>
 

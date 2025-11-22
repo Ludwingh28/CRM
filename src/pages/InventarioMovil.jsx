@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Smartphone, Plus, Search, Filter, Calendar, Truck, User, Package, Hash, FileText, Edit, Trash2 } from 'lucide-react';
+import { Smartphone, Plus, Search, Filter, Calendar, Truck, User, Package, Hash, FileText, Edit, Trash2, AlertCircle } from 'lucide-react';
 import Table from '../components/Table';
 
 const InventarioMovil = () => {
   const [showForm, setShowForm] = useState(false);
   const [productos, setProductos] = useState([]);
+  const [productosAlmacen, setProductosAlmacen] = useState([]);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [formData, setFormData] = useState({
     idCamion: '',
     nombreChofer: '',
@@ -15,11 +17,19 @@ const InventarioMovil = () => {
     detalle: '',
   });
 
-  // Cargar productos desde localStorage al montar el componente
+  // Cargar productos móviles desde localStorage
   useEffect(() => {
     const stored = localStorage.getItem('inventarioMovil');
     if (stored) {
       setProductos(JSON.parse(stored));
+    }
+  }, []);
+
+  // Cargar productos del almacén
+  useEffect(() => {
+    const stored = localStorage.getItem('inventarioAlmacen');
+    if (stored) {
+      setProductosAlmacen(JSON.parse(stored));
     }
   }, []);
 
@@ -28,11 +38,67 @@ const InventarioMovil = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleProductoChange = (e) => {
+    const productoId = e.target.value;
+    if (productoId) {
+      const producto = productosAlmacen.find(p => p.id === productoId);
+      if (producto) {
+        setProductoSeleccionado(producto);
+        setFormData(prev => ({
+          ...prev,
+          idProducto: producto.id,
+          nombreProducto: producto.nombre,
+        }));
+      }
+    } else {
+      setProductoSeleccionado(null);
+      setFormData(prev => ({
+        ...prev,
+        idProducto: '',
+        nombreProducto: '',
+        cantidad: '',
+      }));
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validar que hay producto seleccionado y cantidad
+    if (!productoSeleccionado) {
+      alert('Selecciona un producto del almacén');
+      return;
+    }
+
+    const cantidadSolicitada = parseInt(formData.cantidad);
+    const cantidadDisponible = parseInt(productoSeleccionado.cantidad);
+
+    if (cantidadSolicitada > cantidadDisponible) {
+      alert(`No hay suficiente stock. Disponible: ${cantidadDisponible} unidades`);
+      return;
+    }
+
+    // Restar del inventario almacén
+    const nuevosProductosAlmacen = productosAlmacen.map(p => {
+      if (p.id === productoSeleccionado.id) {
+        return {
+          ...p,
+          cantidad: (parseInt(p.cantidad) - cantidadSolicitada).toString()
+        };
+      }
+      return p;
+    });
+
+    // Guardar almacén actualizado
+    localStorage.setItem('inventarioAlmacen', JSON.stringify(nuevosProductosAlmacen));
+    setProductosAlmacen(nuevosProductosAlmacen);
+
+    // Agregar al inventario móvil
     const newProductos = [...productos, { ...formData, createdAt: new Date() }];
     setProductos(newProductos);
     localStorage.setItem('inventarioMovil', JSON.stringify(newProductos));
+
+    // Resetear formulario
     setFormData({
       idCamion: '',
       nombreChofer: '',
@@ -42,6 +108,7 @@ const InventarioMovil = () => {
       cantidad: '',
       detalle: '',
     });
+    setProductoSeleccionado(null);
     setShowForm(false);
   };
 
@@ -142,39 +209,54 @@ const InventarioMovil = () => {
                   />
                 </div>
 
-                {/* ID Producto */}
-                <div>
+                {/* Seleccionar Producto del Almacén */}
+                <div className="md:col-span-2">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                    <Hash size={16} className="text-purple-600" />
-                    ID Producto
+                    <Package size={16} className="text-purple-600" />
+                    Seleccionar Producto del Almacén
                   </label>
-                  <input
-                    type="text"
-                    name="idProducto"
+                  <select
                     value={formData.idProducto}
-                    onChange={handleInputChange}
+                    onChange={handleProductoChange}
                     required
-                    placeholder="Ej: PROD001"
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  />
+                  >
+                    <option value="">Seleccionar producto...</option>
+                    {productosAlmacen.filter(p => parseInt(p.cantidad) > 0).map(producto => (
+                      <option key={producto.id} value={producto.id}>
+                        {producto.id} - {producto.nombre} (Disponible: {producto.cantidad} unidades)
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
-                {/* Nombre Producto */}
-                <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                    <Package size={16} className="text-orange-600" />
-                    Nombre del Producto
-                  </label>
-                  <input
-                    type="text"
-                    name="nombreProducto"
-                    value={formData.nombreProducto}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Ej: Coca Cola 500ml"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  />
-                </div>
+                {/* Información del producto seleccionado */}
+                {productoSeleccionado && (
+                  <div className="md:col-span-2 bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+                    <h3 className="text-sm font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                      <AlertCircle size={16} />
+                      Información del Producto
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                      <div>
+                        <span className="text-blue-600 font-medium">ID:</span>
+                        <span className="ml-2 text-gray-800">{productoSeleccionado.id}</span>
+                      </div>
+                      <div>
+                        <span className="text-blue-600 font-medium">Tipo:</span>
+                        <span className="ml-2 text-gray-800">{productoSeleccionado.tipo}</span>
+                      </div>
+                      <div>
+                        <span className="text-blue-600 font-medium">Disponible:</span>
+                        <span className="ml-2 text-gray-800">{productoSeleccionado.cantidad} unidades</span>
+                      </div>
+                      <div>
+                        <span className="text-blue-600 font-medium">Precio Minorista:</span>
+                        <span className="ml-2 text-gray-800">${productoSeleccionado.precioMinorista}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Fecha Ingreso */}
                 <div>
@@ -196,7 +278,7 @@ const InventarioMovil = () => {
                 <div>
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                     <Hash size={16} className="text-red-600" />
-                    Cantidad
+                    Cantidad {productoSeleccionado && `(Máx: ${productoSeleccionado.cantidad})`}
                   </label>
                   <input
                     type="number"
@@ -205,7 +287,8 @@ const InventarioMovil = () => {
                     onChange={handleInputChange}
                     required
                     placeholder="0"
-                    min="0"
+                    min="1"
+                    max={productoSeleccionado ? productoSeleccionado.cantidad : undefined}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   />
                 </div>
