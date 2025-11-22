@@ -49,6 +49,7 @@ function MapClickHandler({ onLocationSelect }) {
 
 const Map = ({ center = [-17.82305, -63.217995], zoom = 13, markers = [], onMapClick, height = 400, showTileLayer = true, children }) => {
   const [mapInstance, setMapInstance] = useState(null);
+  const [userLocationMarker, setUserLocationMarker] = useState(null);
 
   useEffect(() => {
     // No-op, solo para asegurar que el fix de iconos se aplique
@@ -76,6 +77,11 @@ const Map = ({ center = [-17.82305, -63.217995], zoom = 13, markers = [], onMapC
       (position) => {
         const { latitude, longitude } = position.coords;
         mapInstance.setView([latitude, longitude], mapInstance.getZoom(), { animate: true });
+        // Agregar marcador en la ubicación del usuario
+        setUserLocationMarker({
+          position: [latitude, longitude],
+          popup: `Tu ubicación\n${latitude.toFixed(6)}, ${longitude.toFixed(6)}`
+        });
         setLoading(false);
       },
       () => {
@@ -100,6 +106,12 @@ const Map = ({ center = [-17.82305, -63.217995], zoom = 13, markers = [], onMapC
             {m.popup && <Popup>{m.popup}</Popup>}
           </Marker>
         ))}
+        {/* Marcador de ubicación del usuario */}
+        {userLocationMarker && (
+          <Marker position={userLocationMarker.position}>
+            <Popup>{userLocationMarker.popup}</Popup>
+          </Marker>
+        )}
         {children}
         <MapInstanceCapture />
       </MapContainer>
@@ -107,7 +119,7 @@ const Map = ({ center = [-17.82305, -63.217995], zoom = 13, markers = [], onMapC
       <button
         type="button"
         onClick={handleLocate}
-        className="absolute bottom-4 right-4 z-[1000] bg-white hover:bg-gray-100 text-blue-600 shadow-md rounded-full p-3 transition-all duration-150 flex items-center justify-center border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="absolute bottom-4 right-4 z-[1000] bg-white hover:bg-gray-100 text-blue-600 shadow-md rounded-full p-3 transition-all duration-150 flex items-center justify-center border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer"
         title="Centrar en mi ubicación"
         style={{ boxShadow: '0 2px 8px 0 rgba(30,64,175,0.10)' }}
         disabled={loading}

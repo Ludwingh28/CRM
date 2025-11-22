@@ -70,13 +70,13 @@ const InventarioMovil = () => {
                 className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
             </div>
-            <button className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700 hover:scale-105">
+            <button className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700 hover:scale-105 cursor-pointer">
               <Filter size={20} />
               <span>Filtrar</span>
             </button>
             <button
               onClick={() => setShowForm(!showForm)}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-green-500/50 hover:scale-105"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-green-500/50 hover:scale-105 cursor-pointer"
             >
               <Plus size={20} />
               <span>Agregar Producto</span>
@@ -220,13 +220,13 @@ const InventarioMovil = () => {
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700"
+                  className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold text-gray-700 cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-green-500/50"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white rounded-xl transition-all duration-200 font-semibold shadow-lg hover:shadow-green-500/50 cursor-pointer"
                 >
                   Guardar Producto
                 </button>

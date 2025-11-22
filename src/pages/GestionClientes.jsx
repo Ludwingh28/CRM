@@ -28,6 +28,28 @@ const GestionClientes = () => {
   const [filterRuta, setFilterRuta] = useState('');
   const [filterZona, setFilterZona] = useState(''); // mayorista, minorista, todos
   const [filterDia, setFilterDia] = useState('');
+  const [loadingLocation, setLoadingLocation] = useState(false);
+
+  // Obtener ubicación del dispositivo manualmente
+  const getDeviceLocation = () => {
+    if (navigator.geolocation) {
+      setLoadingLocation(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setMapCenter([latitude, longitude]);
+          setLoadingLocation(false);
+        },
+        (error) => {
+          console.error('Error obteniendo ubicación:', error);
+          alert('No se pudo obtener la ubicación del dispositivo');
+          setLoadingLocation(false);
+        }
+      );
+    } else {
+      alert('Geolocalización no soportada por este navegador');
+    }
+  };
 
   // Obtener ubicación actual del dispositivo al cargar
   useEffect(() => {
@@ -76,7 +98,7 @@ const GestionClientes = () => {
   const rutasUnicas = [...new Set(clientes.map(c => c.zona))].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4 md:p-6 lg:p-8 relative">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header elegante */}
         <div className="mb-8">

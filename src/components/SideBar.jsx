@@ -48,7 +48,7 @@ function SideBar({
     <aside
       className={`
         fixed md:sticky top-0 left-0 h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 text-white
-        transition-all duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700/50
+        transition-all duration-300 ease-in-out z-[9999] md:z-40 shadow-2xl border-r border-slate-700/50
         ${isOpen ? 'w-72' : 'w-20'}
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}
