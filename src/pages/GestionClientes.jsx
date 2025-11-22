@@ -87,8 +87,8 @@ const GestionClientes = () => {
     const matchesSearch = cliente.nombreVenta?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 cliente.nombreDuena?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRuta = !filterRuta || cliente.zona === filterRuta;
-    // Si filterZona es vacío o 'todos', no filtra por tipoNegocio
-    const matchesZona = !filterZona || filterZona === 'todos' || cliente.tipoNegocio === filterZona;
+    // Filtrar por zona (DH/DM)
+    const matchesZona = !filterZona || filterZona === 'todos' || cliente.zona === filterZona;
     const matchesDia = !filterDia; // Por ahora, puedes implementar filtro por día después
 
     return matchesSearch && matchesRuta && matchesZona && matchesDia;
@@ -159,10 +159,8 @@ const GestionClientes = () => {
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
               >
                 <option value="todos">Todas las Zonas</option>
-                <option value="gimnasio">Gimnasio</option>
-                <option value="venta">Venta/Tienda</option>
-                <option value="condominio">Condominio</option>
-                <option value="otros">Otros</option>
+                <option value="DH">DH (Minorista)</option>
+                <option value="DM">DM (Mayorista)</option>
               </select>
             </div>
 

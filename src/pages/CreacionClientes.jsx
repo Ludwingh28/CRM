@@ -146,15 +146,17 @@ const CreacionClientes = () => {
                     <MapPin size={16} className="text-red-600" />
                     Zona
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="zona"
                     value={formData.zona}
                     onChange={handleInputChange}
                     required
-                    placeholder="Ej: Zona Sur, Zona Norte..."
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                  />
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all bg-white"
+                  >
+                    <option value="">Seleccionar zona...</option>
+                    <option value="DH">DH (Minorista)</option>
+                    <option value="DM">DM (Mayorista)</option>
+                  </select>
                 </div>
 
                 {/* Nombre Dueña */}
