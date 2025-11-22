@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Package, Plus, Search, Filter, Calendar, DollarSign, Hash, Tag, Edit, Trash2 } from 'lucide-react';
 import Table from '../components/Table';
 
@@ -17,6 +17,14 @@ const InventarioAlmacen = () => {
     fechaVencimiento: '',
   });
 
+  // Cargar productos desde localStorage al montar el componente
+  useEffect(() => {
+    const stored = localStorage.getItem('inventarioAlmacen');
+    if (stored) {
+      setProductos(JSON.parse(stored));
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -24,7 +32,9 @@ const InventarioAlmacen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProductos(prev => [...prev, { ...formData, createdAt: new Date() }]);
+    const newProductos = [...productos, { ...formData, createdAt: new Date() }];
+    setProductos(newProductos);
+    localStorage.setItem('inventarioAlmacen', JSON.stringify(newProductos));
     setFormData({
       id: '',
       tipo: '',
@@ -40,7 +50,9 @@ const InventarioAlmacen = () => {
   };
 
   const handleDelete = (index) => {
-    setProductos(prev => prev.filter((_, i) => i !== index));
+    const newProductos = productos.filter((_, i) => i !== index);
+    setProductos(newProductos);
+    localStorage.setItem('inventarioAlmacen', JSON.stringify(newProductos));
   };
 
   return (

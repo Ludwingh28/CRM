@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingCart, Plus, Clock, DollarSign, Package, X, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import Table from '../components/Table';
 
@@ -8,6 +8,22 @@ const GestionVentas = () => {
   const [showMotivosForm, setShowMotivosForm] = useState(false);
   const [preventas, setPreventas] = useState([]);
   const [registrosMotivos, setRegistrosMotivos] = useState([]);
+
+  // Cargar preventas desde localStorage al montar el componente
+  useEffect(() => {
+    const stored = localStorage.getItem('preventas');
+    if (stored) {
+      setPreventas(JSON.parse(stored));
+    }
+  }, []);
+
+  // Cargar registros de motivos desde localStorage al montar el componente
+  useEffect(() => {
+    const stored = localStorage.getItem('registrosMotivos');
+    if (stored) {
+      setRegistrosMotivos(JSON.parse(stored));
+    }
+  }, []);
 
   const [preventaData, setPreventaData] = useState({
     producto: '',
@@ -46,7 +62,9 @@ const GestionVentas = () => {
   const handlePreventaSubmit = (e) => {
     e.preventDefault();
     const horaRegistro = new Date().toLocaleString();
-    setPreventas(prev => [...prev, { ...preventaData, horaRegistro }]);
+    const newPreventas = [...preventas, { ...preventaData, horaRegistro }];
+    setPreventas(newPreventas);
+    localStorage.setItem('preventas', JSON.stringify(newPreventas));
     setPreventaData({
       producto: '',
       precio: '',
@@ -60,7 +78,9 @@ const GestionVentas = () => {
   const handleMotivosSubmit = (e) => {
     e.preventDefault();
     const horaRegistro = new Date().toLocaleString();
-    setRegistrosMotivos(prev => [...prev, { ...motivosData, horaRegistro }]);
+    const newRegistrosMotivos = [...registrosMotivos, { ...motivosData, horaRegistro }];
+    setRegistrosMotivos(newRegistrosMotivos);
+    localStorage.setItem('registrosMotivos', JSON.stringify(newRegistrosMotivos));
     setMotivosData({
       cliente: '',
       motivo: '',

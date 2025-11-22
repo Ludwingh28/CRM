@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Smartphone, Plus, Search, Filter, Calendar, Truck, User, Package, Hash, FileText, Edit, Trash2 } from 'lucide-react';
 import Table from '../components/Table';
 
@@ -15,6 +15,14 @@ const InventarioMovil = () => {
     detalle: '',
   });
 
+  // Cargar productos desde localStorage al montar el componente
+  useEffect(() => {
+    const stored = localStorage.getItem('inventarioMovil');
+    if (stored) {
+      setProductos(JSON.parse(stored));
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -22,7 +30,9 @@ const InventarioMovil = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProductos(prev => [...prev, { ...formData, createdAt: new Date() }]);
+    const newProductos = [...productos, { ...formData, createdAt: new Date() }];
+    setProductos(newProductos);
+    localStorage.setItem('inventarioMovil', JSON.stringify(newProductos));
     setFormData({
       idCamion: '',
       nombreChofer: '',
@@ -36,7 +46,9 @@ const InventarioMovil = () => {
   };
 
   const handleDelete = (index) => {
-    setProductos(prev => prev.filter((_, i) => i !== index));
+    const newProductos = productos.filter((_, i) => i !== index);
+    setProductos(newProductos);
+    localStorage.setItem('inventarioMovil', JSON.stringify(newProductos));
   };
 
   return (
